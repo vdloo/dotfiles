@@ -7,6 +7,8 @@
 
 # example ./bootstrap.sh -p 1234 -u username -h example.com -n vagrant
 
+SCRIPTURL="https://raw.githubusercontent.com/vdloo/dotfiles/master/code/scripts/provision/retrieve.sh"
+
 if [ "$(id -u)" != "0" ]; then
 	echo "Run this script as root"
 else 
@@ -40,12 +42,13 @@ else
 		# update box and install specified programs
 		[ -f "setup.sh" ] && ./setup.sh
 
+		[ ! -f "retrieve.sh" ] && wget "$SCRIPTURL" && chmod u+x retrieve.sh
 		if [ "$REMOTEHOST" == "-p" ]; then
 			echo "run retrieve.sh after logging in to continue provisioning from private repos"
 		else
 			# copy public key and clone into dotfiles,
 			# then run relevant scripts
-			su $NONROOT -c "./dotfiles/scripts/retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
+			su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
 		fi;
 	else
 		echo 'ERROR: no remote host specified. example: sudo ./bootstrap -s s1.example.com';
