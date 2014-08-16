@@ -45,11 +45,11 @@ if [ -d "~/dotfiles" ]; then
 		#	. ~/.repostrap.sh;
 		#) || echo "connecting to $REMOTEHOST failed, was the ssh key successfully copied?"
 else 
-	./repostrap.sh \
-		&& (	#if [ "REMOTEHOST" != "UNDEFINED" ]; then
+	./repostrap.sh
+#		&& (	#if [ "REMOTEHOST" != "UNDEFINED" ]; then
 			#	./retrieve.sh -p $PORT -u $USER -s $REMOTEHOST
 			#else
-				echo 'no remote host specified, only pulled from public repos';
+#				echo 'no remote host specified, only pulled from public repos';
 			#fi
-		) || echo "failed running repostrap for public repo repos"
+#		) || echo "failed running repostrap for public repo repos"
 fi
