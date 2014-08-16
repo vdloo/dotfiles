@@ -6,7 +6,7 @@
 		) || echo "failed cloning dotfiles from public repo"
 cd ~
 mkdir -p "./vim/bundle" ; cd "./vim/bundle" && (
-	[ ! -d Vundle.vim] \
+	[ ! -d Vundle.vim ] \
 		&& git clone https://github.com/gmarik/Vundle.vim.git \
 		|| (cd Vundle.vim; git pull Vundle.vim)
 )
