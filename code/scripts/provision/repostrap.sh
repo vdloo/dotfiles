@@ -1,6 +1,6 @@
 #!/bin/bash
 [ ! -d "dotfiles" ] \
-	( 	&& git clone https://github.com/vdloo/dotfiles \
+	&& ( 	git clone https://github.com/vdloo/dotfiles \
 			&& ( 	rm ~/.bashrc ; \
 				find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
 			) || (cd dotfiles; git pull)
