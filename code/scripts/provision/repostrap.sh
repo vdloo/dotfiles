@@ -1,6 +1,6 @@
 #!/bin/sh
 [ ! -d "dotfiles" ] \
-	&& git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git \
+	&& git clone https://github.com/vdloo/dotfiles \
 		&& ( 	rm ~/.bashrc ; \
 			find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
 		) || echo "failed cloning dotfiles from public repo"
