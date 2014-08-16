@@ -1,9 +1,13 @@
 #!/bin/bash
 [ ! -d "dotfiles" ] \
-	&& git clone https://github.com/vdloo/dotfiles \
-		&& ( 	rm ~/.bashrc ; \
-			find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
-		) || (cd dotfiles; git pull)
+	( 	&& git clone https://github.com/vdloo/dotfiles \
+			&& ( 	rm ~/.bashrc ; \
+				find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
+			) || (cd dotfiles; git pull)
+		cd ~
+		mkdir -p "code/scripts" && cp -R dotfiles/code/scripts/provision/* code/scripts/provision
+	)
+
 type -p vim \
 	&& (	cd ~
 		mkdir -p ".vim/bundle" ; cd ".vim/bundle" && (
@@ -18,3 +22,5 @@ type -p vim \
 		)
 		vim +PluginInstall +qall
 	)
+
+./code/scripts/provision/repostrap_projects.sh
