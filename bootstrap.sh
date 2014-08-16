@@ -42,13 +42,17 @@ else
 		# update box and install specified programs
 		[ -f "setup.sh" ] && ./setup.sh
 
-		[ ! -f "retrieve.sh" ]  && wget "${SCRIPTURL}/retrieve.sh"  && chmod u+x retrieve.sh
-		[ ! -f "repostrap.sh" ] && wget "${SCRIPTURL}/repostrap.sh" && chmod u+x repostrap.sh
+		# download scripts from GitHub
+		RETRURL="${SCRIPTURL}/retrieve.sh"
+		[ ! -f "retrieve.sh" ]  && wget "$RETRURL" && chmod u+x retrieve.sh
+		REPOURL="${SCRIPTURL}/repostrap.sh"
+		[ ! -f "repostrap.sh" ] && wget "$REPOURL" && chmod u+x repostrap.sh
+
+		# if remote host specified also provision from private repos through ssh
 		if [ "$REMOTEHOST" == "-p" ]; then
+			su $NONROOT -c "./retrieve.sh"
 			echo "run retrieve.sh after logging in to continue provisioning from private repos"
 		else
-			# copy public key and clone into dotfiles,
-			# then run relevant scripts
 			su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
 		fi;
 	else
