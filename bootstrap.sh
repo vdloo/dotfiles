@@ -7,7 +7,7 @@
 
 # example ./bootstrap.sh -p 1234 -u username -h example.com -n vagrant
 
-SCRIPTURL="https://raw.githubusercontent.com/vdloo/dotfiles/master/code/scripts/provision/retrieve.sh"
+PROVISIONURL="https://raw.githubusercontent.com/vdloo/dotfiles/master/code/scripts/provision"
 
 if [ "$(id -u)" != "0" ]; then
 	echo "Run this script as root"
@@ -42,7 +42,8 @@ else
 		# update box and install specified programs
 		[ -f "setup.sh" ] && ./setup.sh
 
-		[ ! -f "retrieve.sh" ] && wget "$SCRIPTURL" && chmod u+x retrieve.sh
+		[ ! -f "retrieve.sh" ]  && wget "${SCRIPTURL}/retrieve.sh"  && chmod u+x retrieve.sh
+		[ ! -f "repostrap.sh" ] && wget "${SCRIPTURL}/repostrap.sh" && chmod u+x repostrap.sh
 		if [ "$REMOTEHOST" == "-p" ]; then
 			echo "run retrieve.sh after logging in to continue provisioning from private repos"
 		else

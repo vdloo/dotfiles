@@ -45,7 +45,7 @@ if [ -d "~/dotfiles" ]; then
 		#	. ~/.repostrap.sh;
 		#) || echo "connecting to $REMOTEHOST failed, was the ssh key successfully copied?"
 else 
-	./code/scripts/provision/repostrap.sh \
+	./repostrap.sh \
 		&& (	if [ "REMOTEHOST" != "UNDEFINED" ]; then
 				./retrieve.sh -p $PORT -u $USER -s $REMOTEHOST
 			else
