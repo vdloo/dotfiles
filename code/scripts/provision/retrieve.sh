@@ -47,7 +47,7 @@ if [ -d "~/dotfiles" ]; then
 else 
 	./repostrap.sh \
 		&& (	if [ "REMOTEHOST" != "UNDEFINED" ]; then
-				./retrieve.sh -p $PORT -u $USER -s $REMOTEHOST
+			#	./retrieve.sh -p $PORT -u $USER -s $REMOTEHOST
 			else
 				echo 'no remote host specified, only pulled from public repos';
 			fi
