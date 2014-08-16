@@ -43,9 +43,9 @@ else
 		[ -f "setup.sh" ] && ./setup.sh
 
 		# download scripts from GitHub
-		RETRURL="${SCRIPTURL}/retrieve.sh"
+		RETRURL="${PROVISIONURL}/retrieve.sh"
 		[ ! -f "retrieve.sh" ]  && wget -A.sh "$RETRURL" && chmod u+x retrieve.sh
-		REPOURL="${SCRIPTURL}/repostrap.sh"
+		REPOURL="${PROVISIONURL}/repostrap.sh"
 		[ ! -f "repostrap.sh" ] && wget -A.sh "$REPOURL" && chmod u+x repostrap.sh
 
 		# if remote host specified also provision from private repos through ssh
