@@ -44,9 +44,15 @@ else
 
 		# download scripts from GitHub
 		RETRURL="${PROVISIONURL}/retrieve.sh"
-		[ ! -f "retrieve.sh" ]  && wget -A.sh "$RETRURL" && chmod u+x retrieve.sh
+		[ ! -f "retrieve.sh" ] \
+			&& wget -A.sh "$RETRURL" \
+			&& chmod u+x retrieve.sh \
+			&& chown $NONROOT retrieve.sh
 		REPOURL="${PROVISIONURL}/repostrap.sh"
-		[ ! -f "repostrap.sh" ] && wget -A.sh "$REPOURL" && chmod u+x repostrap.sh
+		[ ! -f "repostrap.sh" ] \
+			&& wget -A.sh "$REPOURL" \
+			&& chmod u+x repostrap.sh \
+			&& chown $NONROOT repostrap.sh
 
 		# if remote host specified also provision from private repos through ssh
 		if [ "$REMOTEHOST" == "-p" ]; then
