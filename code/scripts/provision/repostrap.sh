@@ -8,8 +8,8 @@
 		cd ~
 		[ -d code ] \
 			&& mkdir -p "code/scripts" \
-		       		&& ( ln -s .dotfiles/code/scripts/provision code/scripts/ \
-					|| cp -R .dotfiles/code/scripts/provision/* code/scripts/
+		       		&& ( 	ln -s .dotfiles/code/scripts/provision code/scripts/ \
+						|| cp -R .dotfiles/code/scripts/provision/* code/scripts/
 				)
 	)
 
