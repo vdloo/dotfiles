@@ -61,6 +61,10 @@ else
 		else
 			su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
 		fi;
+
+		# cleanup provision scripts
+		[ -f "retrieve.sh" ]  && rm retrieve.sh
+		[ -f "repostrap.sh" ] && rm repostrap.sh
 	else
 		echo 'ERROR: no remote host specified. example: sudo ./bootstrap -s s1.example.com';
 	fi
