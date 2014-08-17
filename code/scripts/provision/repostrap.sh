@@ -1,11 +1,12 @@
 #!/bin/bash
-[ ! -d "dotfiles" ] \
-	&& ( 	git clone https://github.com/vdloo/dotfiles \
+[ ! -d ".dotfiles" ] \
+	&& ( 	git clone https://github.com/vdloo/dotfiles .dotfiles \
 			&& ( 	rm ~/.bashrc ; \
-				find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
-			) || (cd dotfiles; git pull)
+				find .dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
+			) \
+			|| (cd .dotfiles; git pull)
 		cd ~
-		mkdir -p "code/scripts" && cp -R dotfiles/code/scripts/provision/* code/scripts/provision
+		mkdir -p "code/scripts" && cp -R .dotfiles/code/scripts/provision/* code/scripts/provision
 	)
 
 type -p vim \
@@ -28,4 +29,6 @@ type -p vim \
 		fi
 	)
 
-./code/scripts/provision/repostrap_projects.sh
+cd code/scripts/provision/ \
+	&& [ -f repostrap_projects.sh ] \
+		&& ./repostrap_projects.sh
