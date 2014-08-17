@@ -34,59 +34,65 @@ while getopts "p:u:s:n:h" opt; do
 	esac
 done
 
+function bootstrap_settings()
+{
+	if [ "$(id -u)" != "0" ]; then
+		echo "Run this script as root"
+	else 
+		LATEST=$([ ! -d .dotfiles-public ] && echo 2 || echo 0)
+		[ "$LATEST" == "0" ] && LATEST=$(cd .dotfiles-public; git pull | grep -q -F "Already up-to-date." && echo 1 || echo 0)
+		[ "$LATEST" != "0" ] \
+			&& (	# if executed during vagrant provisioning, copy scripts to home
+				if [ -d "/vagrant" ]; then
+					cp /vagrant/* /home/vagrant/
+				fi;
+
+				# update box and install specified programs
+				[ -f "setup.sh" ] && ./setup.sh
+
+				[ -d ".dotfiles-public" ] \
+					&& ( 	ln -s .dotfiles-public/code/scripts/provision/retrieve.sh . ; \
+						ln -s .dotfiles-public/code/scripts/provision/repostrap-public.sh .
+					)
+
+				# download scripts from GitHub
+				RETRURL="${PROVISIONURL}/retrieve.sh"
+				[ ! -f "retrieve.sh" ] \
+					&& wget -A.sh "$RETRURL" \
+					&& chmod u+x retrieve.sh \
+					&& chown $NONROOT retrieve.sh
+				REPOURL="${PROVISIONURL}/repostrap-public.sh"
+				[ ! -f "repostrap-public.sh" ] \
+					&& wget -A.sh "$REPOURL" \
+					&& chmod u+x repostrap-public.sh \
+					&& chown $NONROOT repostrap-public.sh
+
+				# if remote host specified also provision from private repos through ssh
+				if [ "$RLEN" -lt 4 ]; then
+					su $NONROOT -c "./retrieve.sh"
+					echo "run bootstrap.sh again with the -s flag to continue provisioning from private repos"
+				else
+					git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git .dotfiles-private \
+						&& ln -s .dotfiles-private/code/scripts/provision/repostrap-private.sh .
+					su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
+				fi;
+
+				# cleanup provision scripts
+				[ -f "Vagrantfile" ]  && rm Vagrantfile
+				[ -f "retrieve.sh" ]  && rm retrieve.sh
+				[ -f "repostrap-public.sh" ] && rm repostrap-public.sh
+				[ -f "repostrap-private.sh" ] && rm repostrap-private.sh
+			) || ./.dotfiles-public/bootstrap.sh -u $USER -p $PORT -s $REMOTEHOST -n $NONROOT
+	fi;
+}
+
+
 RLEN=$(echo "$REMOTEHOST" | wc -c)
-[ -d ".dotfiles" ] \
-	&& .dotfiles/code/scripts/provision/gen-and-copy-id.sh -p $PORT -u $USER -s $REMOTEHOST
+[ -d ".dotfiles-public" -a "$RLEN" -gt 3 ] \
+	&& su $NONROOT -c ".dotfiles-public/code/scripts/provision/gen-and-copy-id.sh -p $PORT -u $USER -s $REMOTEHOST"
 
 if [ "$RET" == 1 ]; then
 	echo "Usage: ./bootstrap.sh [-s example.com] [-u user] [-p 443]"
 else
-
-if [ "$(id -u)" != "0" ]; then
-	echo "Run this script as root"
-else 
-	LATEST=$([ ! -d .dotfiles ] && echo 2 || echo 0)
-	[ "$LATEST" == 0 ] && LATEST=$(cd .dotfiles; git pull | grep -q -F "Already up-to-date." && echo 1 || echo 0)
-	[ "$LATEST" != 0 ] \
-		&& (	# if executed during vagrant provisioning, copy scripts to home
-			if [ -d "/vagrant" ]; then
-				cp /vagrant/* /home/vagrant/
-			fi;
-
-			# update box and install specified programs
-			[ -f "setup.sh" ] && ./setup.sh
-
-			[ -d ".dotfiles" ] \
-				&& ( 	cp .dotfiles/code/scripts/provision/retrieve.sh . ; \
-					cp .dotfiles/code/scripts/provision/repostrap.sh .
-				)
-
-			# download scripts from GitHub
-			RETRURL="${PROVISIONURL}/retrieve.sh"
-			[ ! -f "retrieve.sh" ] \
-				&& wget -A.sh "$RETRURL" \
-				&& chmod u+x retrieve.sh \
-				&& chown $NONROOT retrieve.sh
-			REPOURL="${PROVISIONURL}/repostrap.sh"
-			[ ! -f "repostrap.sh" ] \
-				&& wget -A.sh "$REPOURL" \
-				&& chmod u+x repostrap.sh \
-				&& chown $NONROOT repostrap.sh
-
-			# if remote host specified also provision from private repos through ssh
-			if [ "$RLEN" -lt 4 ]; then
-				su $NONROOT -c "./retrieve.sh"
-				echo "run bootstrap.sh again with the -s flag to continue provisioning from private repos"
-			else
-				su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
-			fi;
-
-			# cleanup provision scripts
-			[ -f "Vagrantfile" ]  && rm Vagrantfile
-			[ -f "retrieve.sh" ]  && rm retrieve.sh
-			[ -f "repostrap.sh" ] && rm repostrap.sh
-		) \
-		|| .dotfiles/bootstrap.sh -n $NONROOT -p $PORT -u $USER -s $REMOTEHOST
-	fi;
-
+	bootstrap_settings
 fi;

@@ -23,7 +23,7 @@ while getopts "p:u:s:" opt; do
 	esac
 done
 
-./repostrap.sh
-#if [ -d "~/.dotfiles" ]; then
-#	git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git 
-#fi;
+[ -f repostrap-public.sh ] \
+	&& ./repostrap-public.sh
+[ -f repostrap-private.sh ] \
+	&& ./repostrap-private.sh

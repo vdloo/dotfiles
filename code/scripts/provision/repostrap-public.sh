@@ -1,16 +1,16 @@
 #!/bin/bash
-[ ! -d ".dotfiles" ] \
-	&& ( 	git clone https://github.com/vdloo/dotfiles .dotfiles \
+[ ! -d ".dotfiles-public" ] \
+	&& ( 	git clone https://github.com/vdloo/dotfiles .dotfiles-public \
 			&& ( 	rm ~/.bashrc ; \
-				find .dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
+				find .dotfiles-public/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
 			) \
-			|| (cd .dotfiles; git pull)
+			|| (cd .dotfiles-public; git pull)
 		cd ~
 		[ -d code ] \
 			&& mkdir -p "code/scripts" \
-		       		&& ( 	ln -s .dotfiles/code/scripts/provision code/scripts/ \
-						|| ( mkdir code/scripts/provision &&
-							cp -R .dotfiles/code/scripts/provision/* code/scripts/provision
+		       		&& ( 	ln -s .dotfiles-public/code/scripts/provision code/scripts/ \
+						|| ( mkdir code/scripts/provision ; \
+							cp -R .dotfiles-public/code/scripts/provision/* code/scripts/provision
 						)
 				)
 	)
@@ -37,10 +37,10 @@ type -p vim \
 
 cd ~
 [ -d code ] \
-	&& ( 	cd ~/.dotfiles/code/scripts/provision/ \
+	&& ( 	cd ~/.dotfiles-public/code/scripts/provision/ \
 			&& [ -f repostrap_projects_public.sh ] \
 				&& ./repostrap_projects_public.sh
-		cd ~/.dotfiles/code/scripts/provision/ \
+		cd ~/.dotfiles-public/code/scripts/provision/ \
 			&& [ -f repostrap_projects_private.sh ] \
 				&& ./repostrap_projects_private.sh
 	)
