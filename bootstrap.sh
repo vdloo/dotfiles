@@ -52,6 +52,11 @@ else
 			# update box and install specified programs
 			[ -f "setup.sh" ] && ./setup.sh
 
+			[ -d ".dotfiles" ] \
+				&& ( 	cp .dotfiles/code/scripts/provision/retrieve.sh . ; \
+					cp .dotfiles/code/scripts/provision/repostrap.sh .
+				)
+
 			# download scripts from GitHub
 			RETRURL="${PROVISIONURL}/retrieve.sh"
 			[ ! -f "retrieve.sh" ] \

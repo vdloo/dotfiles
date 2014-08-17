@@ -24,7 +24,7 @@ while getopts "p:u:s:" opt; do
 done
 
 ./repostrap.sh
-if [ -d "~/dotfiles" ]; then
+if [ -d "~/.dotfiles" ]; then
 	# generate ssh keypair
 	[ ! -f ~/.ssh/id_rsa ] \
 		&& ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N ''
