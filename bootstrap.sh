@@ -17,7 +17,6 @@ USER=$(whoami)
 NONROOT=$(logname)
 REMOTEHOST=0
 RET=0
-LATEST=-1
 
 while getopts "p:u:s:n:h" opt; do
 	case "$opt" in
@@ -42,6 +41,7 @@ else
 if [ "$(id -u)" != "0" ]; then
 	echo "Run this script as root"
 else 
+	LATEST=$(echo -1)
 	[ -d ~/.dotfiles ] \
 		&& (	cd ~/.dotfiles
 			LATEST=$(git pull | grep "Already up-to-date." && echo 1 || echo 0)
