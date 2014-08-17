@@ -2,7 +2,7 @@
 cd ~
 mkdir -p "code/configs" ; cd "code/configs" && (
 	[ ! -d "vagrantfiles" ] \
-		&& git clone https://github.com/vdloo/vagrantfiles
+		&& git clone https://github.com/vdloo/vagrantfiles \
 		|| (	cd vagrantfiles \
 				&& git pull
 		)
@@ -10,7 +10,7 @@ mkdir -p "code/configs" ; cd "code/configs" && (
 cd ~
 mkdir -p "code/configs" ; cd "code/configs" && (
 	[ ! -d "dockerfiles" ] \
-		&& git clone https://github.com/vdloo/dockerfiles
+		&& git clone https://github.com/vdloo/dockerfiles \
 		|| (	cd dockerfiles \
 				&& git pull
 		)
@@ -18,7 +18,7 @@ mkdir -p "code/configs" ; cd "code/configs" && (
 cd ~
 mkdir -p "code/projects" ; cd "code/projects" && (
 	[ ! -d "daust" ] \ 
-		&& git clone https://github.com/vdloo/daust
+		&& git clone https://github.com/vdloo/daust \
 		|| (	cd daust \
 				&& git pull
 		)
@@ -26,7 +26,7 @@ mkdir -p "code/projects" ; cd "code/projects" && (
 cd ~
 mkdir -p "code/projects" ; cd "code/projects" && (
 	[ ! -d "SICP" ] \ 
-		&& git clone https://github.com/vdloo/SICP
+		&& git clone https://github.com/vdloo/SICP \
 		|| (	cd SICP \
 				&& git pull
 		)
