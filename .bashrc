@@ -10,8 +10,8 @@ fi
 
 export EDITOR=vim
 
-alias ls='ls --color=auto'
-alias s='ls --color=auto'
+alias ls='ls --color=auto --group-directories-first'
+alias s='ls --color=auto --group-directories-first'
 alias xc='xclip -selection c -i'
 alias bc='acpi -V'
 alias redwm='cd ~/dwm; makepkg -g >> PKGBUILD; makepkg -efi --noconfirm; killall dwm'
