@@ -17,8 +17,9 @@ USER=$(whoami)
 NONROOT=$(logname)
 REMOTEHOST=0
 RET=0
+REC=0
 
-while getopts "p:u:s:n:h" opt; do
+while getopts "p:u:s:n:hr" opt; do
 	case "$opt" in
 		p)
 			PORT="$OPTARG" ;;
@@ -29,8 +30,9 @@ while getopts "p:u:s:n:h" opt; do
 		n)
 			NONROOT="$OPTARG" ;;
 		h)
-			RET=1
-			;;
+			RET=1 ;;
+		r)
+			REC=1 ;;
 	esac
 done
 
@@ -82,7 +84,11 @@ function bootstrap_settings()
 				[ -f "retrieve.sh" ]  && rm retrieve.sh
 				[ -f "repostrap-public.sh" ] && rm repostrap-public.sh
 				[ -f "repostrap-private.sh" ] && rm repostrap-private.sh
-			) || ./.dotfiles-public/bootstrap.sh -u $USER -p $PORT -s $REMOTEHOST -n $NONROOT
+			)
+		[ "$LATEST" == "0" ] \
+			&& 	( 	[ "$REC" != "1" ] \
+						&& ./.dotfiles-public/bootstrap.sh -u $USER -p $PORT -s $REMOTEHOST -n $NONROOT -r
+				)
 	fi;
 }
 
