@@ -63,6 +63,7 @@ else
 		fi;
 
 		# cleanup provision scripts
+		[ -f "Vagrantfile" ]  && rm Vagrantfile
 		[ -f "retrieve.sh" ]  && rm retrieve.sh
 		[ -f "repostrap.sh" ] && rm repostrap.sh
 	else
