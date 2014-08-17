@@ -8,7 +8,9 @@
 		cd ~
 		[ -d code ] \
 			&& mkdir -p "code/scripts" \
-		       		&& cp -R .dotfiles/code/scripts/provision/* code/scripts/provision
+		       		&& ( ln -s .dotfiles/code/scripts/provision code/scripts/ \
+					|| cp -R .dotfiles/code/scripts/provision/* code/scripts/
+				)
 	)
 
 type -p vim \
