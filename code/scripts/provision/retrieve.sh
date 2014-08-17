@@ -23,11 +23,17 @@ while getopts "p:u:s:" opt; do
 	esac
 done
 
+./repostrap.sh
 if [ -d "~/dotfiles" ]; then
 	# generate ssh keypair
-	ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N ''
+	[ -f ~/.ssh/id_rsa ] \
+		&& ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N ''
 	# add remote host public key to known hosts
-	ssh-keyscan -p $PORT $REMOTEHOST | sed '1 ! d' >> ~/.ssh/known_hosts
+	RPUBK=$(ssh-keyscan -p $PORT $REMOTEHOST)
+	touch ~/.ssh/known_hosts
+	grep -q -F "$RPUBK" ~/.ssh/known_hosts \
+		|| echo "$RPUBK" | sed '1 ! d' >> ~/.ssh/known_hosts
+
 	# add public key to remote host for auto login
 	ssh-copy-id $USER@$REMOTEHOST -p $PORT
 
@@ -45,7 +51,6 @@ if [ -d "~/dotfiles" ]; then
 		#	. ~/.repostrap.sh;
 		#) || echo "connecting to $REMOTEHOST failed, was the ssh key successfully copied?"
 else 
-	./repostrap.sh
 #		&& (	#if [ "REMOTEHOST" != "UNDEFINED" ]; then
 			#	./retrieve.sh -p $PORT -u $USER -s $REMOTEHOST
 			#else

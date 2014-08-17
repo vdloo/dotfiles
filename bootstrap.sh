@@ -61,7 +61,8 @@ else
 			&& chown $NONROOT repostrap.sh
 
 		# if remote host specified also provision from private repos through ssh
-		if [ "$REMOTEHOST" == "-p" -o "$REMOTEHOST" == 0 ]; then
+		RLEN=$(echo "$REMOTEHOST" | wc -c)
+		if [ "$RLEN" -lt 4 ]; then
 			su $NONROOT -c "./retrieve.sh"
 			echo "run bootstrap.sh again with the -s flag to continue provisioning from private repos"
 		else
