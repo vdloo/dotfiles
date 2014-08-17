@@ -20,7 +20,12 @@ type -p vim \
 			[ ! -f zenburn.vim ] \
 				&& wget -O zenburn.vim http://www.vim.org/scripts/download_script.php?src_id=15530
 		)
-		vim +PluginInstall +qall
+		if [ -d "/vagrant" ]; then
+			# silence vim curses output to not mess up vagrant provision output
+			vim +PluginInstall +qall 2>&1 1> /dev/null
+		else
+			vim +PluginInstall +qall
+		fi
 	)
 
 ./code/scripts/provision/repostrap_projects.sh
