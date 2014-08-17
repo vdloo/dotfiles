@@ -41,12 +41,8 @@ else
 if [ "$(id -u)" != "0" ]; then
 	echo "Run this script as root"
 else 
-	LATEST=$(echo -1)
-	[ -d ~/.dotfiles ] \
-		&& (	cd ~/.dotfiles
-			LATEST=$(git pull | grep "Already up-to-date." && echo 1 || echo 0)
-		)
-
+	LATEST=$([ ! -d .dotfiles ] && echo 2 || echo 0)
+	[ "$LATEST" == 0 ] && LATEST=$(cd .dotfiles; git pull | grep -q -F "Already up-to-date." && echo 1 || echo 0)
 	[ "$LATEST" != 0 ] \
 		&& (	# if executed during vagrant provisioning, copy scripts to home
 			if [ -d "/vagrant" ]; then
@@ -82,6 +78,7 @@ else
 			[ -f "retrieve.sh" ]  && rm retrieve.sh
 			[ -f "repostrap.sh" ] && rm repostrap.sh
 		) \
-		|| ~/.dotfiles/bootstrap.sh -n $NONROOT -p $PORT -u $USER -s $REMOTEHOST
+		|| .dotfiles/bootstrap.sh -n $NONROOT -p $PORT -u $USER -s $REMOTEHOST
 	fi;
+
 fi;

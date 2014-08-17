@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 cd ~
 mkdir -p "code/configs" ; cd "code/configs" && (
 	[ ! -d "vagrantfiles" ] \
 		&& git clone https://github.com/vdloo/vagrantfiles \
-			|| (	cd vagrantfiles \
+			|| (	cd "vagrantfiles" \
 					&& git pull
 			)
 )
@@ -11,7 +11,7 @@ cd ~
 mkdir -p "code/configs" ; cd "code/configs" && (
 	[ ! -d "dockerfiles" ] \
 		&& git clone https://github.com/vdloo/dockerfiles \
-			|| (	cd dockerfiles \
+			|| (	cd "dockerfiles" \
 					&& git pull
 			)
 )
@@ -19,15 +19,15 @@ cd ~
 mkdir -p "code/projects" ; cd "code/projects" && (
 	[ ! -d "daust" ] \
 		&& git clone https://github.com/vdloo/daust \
-			|| (	cd daust \
+			|| (	cd "daust" \
 					&& git pull
 			)
 )
 cd ~
 mkdir -p "code/projects" ; cd "code/projects" && (
-	[ ! -d "SICP" ] \ 
+	[ ! -d "SICP" ] \
 		&& git clone https://github.com/vdloo/SICP \
-			|| (	cd SICP \
+			|| (	cd "SICP" \
 					&& git pull
 			)
 )

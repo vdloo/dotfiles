@@ -26,7 +26,7 @@ done
 ./repostrap.sh
 if [ -d "~/dotfiles" ]; then
 	# generate ssh keypair
-	[ -f ~/.ssh/id_rsa ] \
+	[ ! -f ~/.ssh/id_rsa ] \
 		&& ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N ''
 	# add remote host public key to known hosts
 	RPUBK=$(ssh-keyscan -p $PORT $REMOTEHOST)
