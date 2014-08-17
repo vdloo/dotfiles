@@ -34,6 +34,10 @@ while getopts "p:u:s:n:h" opt; do
 	esac
 done
 
+RLEN=$(echo "$REMOTEHOST" | wc -c)
+[ -d ".dotfiles" ] \
+	&& .dotfiles/code/scripts/provision/gen-and-copy-id.sh -p $PORT -u $USER -s $REMOTEHOST
+
 if [ "$RET" == 1 ]; then
 	echo "Usage: ./bootstrap.sh [-s example.com] [-u user] [-p 443]"
 else
@@ -70,7 +74,6 @@ else
 				&& chown $NONROOT repostrap.sh
 
 			# if remote host specified also provision from private repos through ssh
-			RLEN=$(echo "$REMOTEHOST" | wc -c)
 			if [ "$RLEN" -lt 4 ]; then
 				su $NONROOT -c "./retrieve.sh"
 				echo "run bootstrap.sh again with the -s flag to continue provisioning from private repos"
