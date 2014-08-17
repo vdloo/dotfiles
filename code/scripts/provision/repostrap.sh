@@ -6,7 +6,9 @@
 			) \
 			|| (cd .dotfiles; git pull)
 		cd ~
-		mkdir -p "code/scripts" && cp -R .dotfiles/code/scripts/provision/* code/scripts/provision
+		[ -d code ] \
+			&& mkdir -p "code/scripts" \
+		       		&& cp -R .dotfiles/code/scripts/provision/* code/scripts/provision
 	)
 
 type -p vim \
@@ -29,6 +31,12 @@ type -p vim \
 		fi
 	)
 
-cd code/scripts/provision/ \
-	&& [ -f repostrap_projects.sh ] \
-		&& ./repostrap_projects.sh
+cd ~
+[ -d code ] \
+	&& ( 	cd ~/.dotfiles/code/scripts/provision/ \
+			&& [ -f repostrap_projects_public.sh ] \
+				&& ./repostrap_projects_public.sh
+		cd ~/.dotfiles/code/scripts/provision/ \
+			&& [ -f repostrap_projects_private.sh ] \
+				&& ./repostrap_projects_private.sh
+	)
