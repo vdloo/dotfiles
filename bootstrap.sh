@@ -14,7 +14,7 @@ unset REMOTEHOST
 unset PORT
 unset NONROOT
 PORT=22
-USER=$(whoami)
+USER=$(logname)
 REMOTEHOST=0
 RET=0
 

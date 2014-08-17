@@ -33,28 +33,8 @@ if [ -d "~/dotfiles" ]; then
 	touch ~/.ssh/known_hosts
 	grep -q -F "$RPUBK" ~/.ssh/known_hosts \
 		|| echo "$RPUBK" | sed '1 ! d' >> ~/.ssh/known_hosts
-
 	# add public key to remote host for auto login
 	ssh-copy-id $USER@$REMOTEHOST -p $PORT
 
-	# clone into dotfiles and symlink to home directory
 #	git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git 
-
-	#\
-		#&& (    rm ~/.bashrc \
-		#	&& find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
-
-		# install vim plugins
-#	vim +PluginInstall +qall \
-
-		# clone relevant repositories
-		#	. ~/.repostrap.sh;
-		#) || echo "connecting to $REMOTEHOST failed, was the ssh key successfully copied?"
-else 
-#		&& (	#if [ "REMOTEHOST" != "UNDEFINED" ]; then
-			#	./retrieve.sh -p $PORT -u $USER -s $REMOTEHOST
-			#else
-#				echo 'no remote host specified, only pulled from public repos';
-			#fi
-#		) || echo "failed running repostrap for public repo repos"
-fi
+fi;
