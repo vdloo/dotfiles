@@ -9,31 +9,37 @@
 
 PROVISIONURL="https://raw.githubusercontent.com/vdloo/dotfiles/master/code/scripts/provision"
 
-if [ "$(id -u)" != "0" ]; then
-	echo "Run this script as root"
-else 
-	unset USER
-	unset REMOTEHOST
-	unset PORT
-	unset NONROOT
-	PORT=22
-	USER=$(whoami)
-	REMOTEHOST=0
+unset USER
+unset REMOTEHOST
+unset PORT
+unset NONROOT
+PORT=22
+USER=$(whoami)
+REMOTEHOST=0
+RET=0
 
-	while getopts "p:u:s:n:" opt; do
-		case "$opt" in
-			p)
-				PORT="$OPTARG" ;;
-			u)
-				USER="$OPTARG" ;;
-			s)
-				REMOTEHOST="$OPTARG" ;;
-			n)
-				NONROOT="$OPTARG" ;;
-		esac
-	done
+while getopts "p:u:s:n:h" opt; do
+	case "$opt" in
+		p)
+			PORT="$OPTARG" ;;
+		u)
+			USER="$OPTARG" ;;
+		s)
+			REMOTEHOST="$OPTARG" ;;
+		n)
+			NONROOT="$OPTARG" ;;
+		h)
+			RET=1
+			;;
+	esac
+done
 
-	if [ "$REMOTEHOST" != 0 ]; then
+if [ "$RET" == 1 ]; then
+	echo "Usage: ./bootstrap.sh [-s example.com] [-u user] [-p 443]"
+else
+	if [ "$(id -u)" != "0" ]; then
+		echo "Run this script as root"
+	else 
 		# if executed during vagrant provisioning, copy scripts to home
 		if [ -d "/vagrant" ]; then
 			cp /vagrant/* /home/vagrant/
@@ -55,9 +61,9 @@ else
 			&& chown $NONROOT repostrap.sh
 
 		# if remote host specified also provision from private repos through ssh
-		if [ "$REMOTEHOST" == "-p" ]; then
+		if [ "$REMOTEHOST" == "-p" -o "$REMOTEHOST" == 0 ]; then
 			su $NONROOT -c "./retrieve.sh"
-			echo "run retrieve.sh after logging in to continue provisioning from private repos"
+			echo "run bootstrap.sh again with the -s flag to continue provisioning from private repos"
 		else
 			su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
 		fi;
@@ -66,7 +72,5 @@ else
 		[ -f "Vagrantfile" ]  && rm Vagrantfile
 		[ -f "retrieve.sh" ]  && rm retrieve.sh
 		[ -f "repostrap.sh" ] && rm repostrap.sh
-	else
-		echo 'ERROR: no remote host specified. example: sudo ./bootstrap -s s1.example.com';
-	fi
+	fi;
 fi;
