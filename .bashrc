@@ -18,3 +18,5 @@ alias redwm='cd ~/dwm; makepkg -g >> PKGBUILD; makepkg -efi --noconfirm; killall
 alias sdcv='sdcv --utf8-output'
 alias define='sdcv --utf8-output'
 alias newrepo="~/dotfiles/newrepo.sh"
+
+[ -f ~/.bashrc_private ] && source ~/.bashrc_private
