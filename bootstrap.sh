@@ -84,6 +84,7 @@ function bootstrap_settings()
 				[ -f "retrieve.sh" ]  && rm retrieve.sh
 				[ -f "repostrap-public.sh" ] && rm repostrap-public.sh
 				[ -f "repostrap-private.sh" ] && rm repostrap-private.sh
+				echo "done bootstrapping"
 			)
 		[ "$LATEST" == "0" ] \
 			&& 	( 	[ "$REC" != "1" ] \
