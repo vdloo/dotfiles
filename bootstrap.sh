@@ -97,7 +97,8 @@ function bootstrap_settings()
 
 RLEN=$(echo "$REMOTEHOST" | wc -c)
 [ -d ".dotfiles-public" -a "$RLEN" -gt 3 ] \
-	&& su $NONROOT -c ".dotfiles-public/code/scripts/provision/gen-and-copy-id.sh -p $PORT -u $USER -s $REMOTEHOST"
+	&& sudo -H -u $NONROOT bash -c ".dotfiles-public/code/scripts/provision/gen-and-copy-id.sh -p $PORT -u $USER -s $REMOTEHOST"
+
 
 if [ "$RET" == 1 ]; then
 	echo "Usage: ./bootstrap.sh [-s example.com] [-u user] [-p 443]"
