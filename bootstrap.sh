@@ -75,7 +75,8 @@ function bootstrap_settings()
 					echo "run bootstrap.sh again with the -s flag to continue provisioning from private repos"
 				else
 					sudo -H -u $NONROOT bash -c "git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git .dotfiles-private \
-						&& ln -s .dotfiles-private/code/scripts/provision/repostrap-private.sh ."
+						&& ln -s .dotfiles-private/code/scripts/provision/repostrap-private.sh . \
+							&& find .dotfiles-private/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';';"
 					su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
 				fi;
 
