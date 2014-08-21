@@ -18,9 +18,13 @@ while getopts "p:u:s:" opt; do
 	esac
 done
 
-# generate ssh keypair
+# generate ssh private key
 [ ! -f ~/.ssh/id_rsa ] \
 	&& ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N ''
+[ ! -f ~/.ssh/ssh_host_rsa_key ] \
+	&& ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+[ ! -f ~/.ssh/ssh_host_dsa_key ] \
+	&& ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
 # add remote host public key to known hosts
 RPUBK=$(ssh-keyscan -p $PORT $REMOTEHOST)
 touch ~/.ssh/known_hosts
