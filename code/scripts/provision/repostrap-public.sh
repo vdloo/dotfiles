@@ -7,15 +7,15 @@
 			|| (cd .dotfiles-public; git pull)
 		cd ~
 		[ -d code ] \
-			&& mkdir -p "code/scripts" \
-		       		&& ( 	ln -s ~/.dotfiles-public/code/scripts/provision code/scripts/ \
-						|| ( mkdir -p "code/scripts/provision" ; \
-							cp -R .dotfiles-public/code/scripts/provision/* code/scripts/provision \
+			&& mkdir -p "code/scripts/" \
+		       		&& ( 	mkdir -p "code/scripts/provision/" ; \
+					ln -s ~/.dotfiles-public/code/scripts/provision/* code/scripts/provision/ \
+						|| ( 	cp -R .dotfiles-public/code/scripts/provision/* code/scripts/provision/ \
 								|| echo "skipping copying code/scripts/provision folder"
 						); \
-		       			ln -s ~/.dotfiles-public/code/scripts/system code/scripts/ \
-						|| ( mkdir -p "code/scripts/system" ; \
-							cp -R .dotfiles-public/code/scripts/system/* code/scripts/system \
+					mkdir -p "code/scripts/system" ; \
+		       			ln -s ~/.dotfiles-public/code/scripts/system/* code/scripts/system/ \
+						|| ( 	cp -R .dotfiles-public/code/scripts/system/* code/scripts/system \
 								|| echo "skipping copying code/scripts/system folder"
 						)
 				)
