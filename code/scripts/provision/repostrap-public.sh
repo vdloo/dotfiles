@@ -9,8 +9,14 @@
 		[ -d code ] \
 			&& mkdir -p "code/scripts" \
 		       		&& ( 	ln -s ~/.dotfiles-public/code/scripts/provision code/scripts/ \
-						|| ( mkdir code/scripts/provision ; \
-							cp -R .dotfiles-public/code/scripts/provision/* code/scripts/provision
+						|| ( mkdir -p "code/scripts/provision" ; \
+							cp -R .dotfiles-public/code/scripts/provision/* code/scripts/provision \
+								|| echo "skipping copying code/scripts/provision folder"
+						); \
+		       			ln -s ~/.dotfiles-public/code/scripts/system code/scripts/ \
+						|| ( mkdir -p "code/scripts/system" ; \
+							cp -R .dotfiles-public/code/scripts/system/* code/scripts/system \
+								|| echo "skipping copying code/scripts/system folder"
 						)
 				)
 	)
