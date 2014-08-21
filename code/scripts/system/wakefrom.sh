@@ -1,4 +1,5 @@
 #!/bin/bash
+# wake on lan on a remote machine using only python (so it works on Synology machines)
 # example: wakefrom.sh -u user -s example.com -m 00:00:00:00:00:00 -P /volume1/@appstore/python/bin/
 
 PORT=22
