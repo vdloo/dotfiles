@@ -89,7 +89,8 @@ function bootstrap_settings()
 		[ "$LATEST" == "0" ] \
 			&& 	( 	[ "$REC" != "1" ] \
 						&& ./.dotfiles-public/bootstrap.sh -u $USER -p $PORT -s $REMOTEHOST -n $NONROOT -r
-				)
+				) \
+			|| :
 	fi;
 }
 
