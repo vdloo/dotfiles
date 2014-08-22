@@ -2,7 +2,7 @@
 [ ! -d ".dotfiles-public" ] \
 	&& ( 	git clone https://github.com/vdloo/dotfiles .dotfiles-public \
 			&& ( 	rm ~/.bashrc ; \
-				find .dotfiles-public/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';'; \
+				find .dotfiles-public/ -mindepth 1 -maxdepth 1 -type f -exec ln -s {} ~ ';'; \
 			) \
 			|| (cd .dotfiles-public; git pull)
 		cd ~
