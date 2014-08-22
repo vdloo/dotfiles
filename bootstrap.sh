@@ -47,6 +47,13 @@ function bootstrap_settings()
 			&& (	# if executed during vagrant provisioning, copy scripts to home
 				if [ -d "/vagrant" ]; then
 					cp /vagrant/* /home/vagrant/
+					# make the ssh agent forward available to root during vagrant provisioning
+					SSHFWDURL="${PROVISIONURL}/ssh_fwd_fix.sh"
+					[ ! -f "ssh_fwd_fix.sh" ] \
+						&& wget -A.sh "$SSHFWDURL" \
+						&& chmod u+x ssh_fwd_fix.sh \
+						&& chown $NONROOT ssh_fwd_fix.sh \
+						&& ./ssh_fwd_fix.sh
 				fi;
 
 				# update box and install specified programs
@@ -82,6 +89,7 @@ function bootstrap_settings()
 
 				# cleanup provision scripts
 				[ -f "Vagrantfile" ]  && rm Vagrantfile
+				[ -f "ssh_fwd_fix.sh" ]  && rm ssh_fwd_fix.sh
 				[ -f "retrieve.sh" ]  && rm retrieve.sh
 				[ -f "repostrap-public.sh" ] && rm repostrap-public.sh
 				[ -f "repostrap-private.sh" ] && rm repostrap-private.sh
