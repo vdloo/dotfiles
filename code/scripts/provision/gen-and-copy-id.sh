@@ -21,10 +21,5 @@ done
 # generate ssh private key
 [ ! -f ~/.ssh/id_rsa ] \
 	&& ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N ''
-# add remote host public key to known hosts
-RPUBK=$(ssh-keyscan -p $PORT $REMOTEHOST)
-touch ~/.ssh/known_hosts
-grep -q -F "$RPUBK" ~/.ssh/known_hosts \
-	|| echo "$RPUBK" | sed '1 ! d' >> ~/.ssh/known_hosts
 # add public key to remote host for auto login
 ssh-copy-id $USER@$REMOTEHOST -p $PORT

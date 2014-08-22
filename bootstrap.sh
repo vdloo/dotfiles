@@ -81,7 +81,13 @@ function bootstrap_settings()
 					su $NONROOT -c "./retrieve.sh"
 					echo "run bootstrap.sh again with the -s flag to continue provisioning from private repos"
 				else
-					sudo -H -u $NONROOT bash -c "git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git .dotfiles-private \
+					# add remote host public key to known hosts, then clone private dotfiles through ssh
+					sudo -H -u $NONROOT bash -c "\
+						RPUBK=$(ssh-keyscan -p $PORT $REMOTEHOST) ; \
+						touch ~/.ssh/known_hosts ; \
+						grep -q -F "$RPUBK" ~/.ssh/known_hosts \
+								|| echo "$RPUBK" | sed '1 ! d' >> ~/.ssh/known_hosts ; \
+						git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git .dotfiles-private \
 						&& ln -s .dotfiles-private/code/scripts/provision/repostrap-private.sh . \
 							&& find .dotfiles-private/ -mindepth 1 -maxdepth 1 ! -name '.git' -exec ln -s {} ~ ';';"
 					su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
