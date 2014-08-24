@@ -19,4 +19,4 @@ alias sdcv='sdcv --utf8-output'
 alias define='sdcv --utf8-output'
 alias newrepo="~/dotfiles/newrepo.sh"
 
-[ -f ~/.bashrc_private ] && source ~/.bashrc_private
+[ -f ~/.bashrc-private ] && source ~/.bashrc-private
