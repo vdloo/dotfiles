@@ -91,7 +91,8 @@ function bootstrap_settings()
 								|| echo \"$RPUBK\" | sed '1 ! d' >> ~/.ssh/known_hosts ; \
 						git clone ssh://$USER@$REMOTEHOST:$PORT/~/repo/dotfiles.git .dotfiles-private \
 						&& ln -s .dotfiles-private/code/scripts/provision/repostrap-private.sh . \
-							&& find .dotfiles-private/ -mindepth 1 -maxdepth 1 -type f -exec ln -s {} ~ ';';"
+							&& find ~/.dotfiles-private/ -mindepth 1 -maxdepth 1 -type f -exec ln -s {} ~ ';'; \
+							ln -s ~/.dotfiles-private/.ssh/config ~/.ssh/config" 
 					su $NONROOT -c "./retrieve.sh -u $USER -p $PORT -s $REMOTEHOST"
 				fi;
 
