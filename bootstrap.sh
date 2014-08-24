@@ -14,7 +14,9 @@ unset PORT
 unset NONROOT
 PORT=22
 USER=$(whoami)
-NONROOT=$(logname)
+logname \
+	&& NONROOT=$(logname) \
+	|| NONROOT=0
 REMOTEHOST=0
 RET=0
 REC=0
@@ -115,8 +117,8 @@ RLEN=$(echo "$REMOTEHOST" | wc -c)
 	&& sudo -H -u $NONROOT bash -c ".dotfiles-public/code/scripts/provision/gen-and-copy-id.sh -p $PORT -u $USER -s $REMOTEHOST"
 
 
-if [ "$RET" == 1 ]; then
-	echo "Usage: ./bootstrap.sh [-s example.com] [-u user] [-p 443]"
+if [ "$RET" == 1 -o "$NONROOT" == 0 ]; then
+	echo "Usage: ./bootstrap.sh [-s example.com] [-u user] [-p 2222]"
 else
 	bootstrap_settings
 fi;
