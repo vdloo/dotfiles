@@ -5,7 +5,7 @@
 
 # startx if on tty1
 if [ -z "$DISPLAY" ] && [ $(tty) == /dev/tty1 ]; then
-    startx
+    type -p startx && startx
 fi
 
 export EDITOR=vim
