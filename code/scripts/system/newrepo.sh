@@ -67,7 +67,7 @@ else
 				cd ~
 			EOF
 		) && (
-			cd $(dirname $REPOSCRIPT) && git add .repostrap.sh && git commit -m "added $PJNAME repo to repo bootstrap script"
+			cd $(dirname $REPOSCRIPT) && git add repostrap-projects-private.sh && git commit -m "added $PJNAME repo to repo bootstrap script"
 		)
 	else
 		echo "Project name contains invalid characters, change the name and try again"
