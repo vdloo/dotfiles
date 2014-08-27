@@ -38,6 +38,9 @@ while getopts "p:u:s:n:hr" opt; do
 	esac
 done
 
+[ "$NONROOT" == "root" ] \
+	&& echo "Warning: the NONROOT variable is root, that's probably not what you want. Terminate the script and explicitly specify the non root user with the -n flag"
+
 function bootstrap_settings()
 {
 	if [ "$(id -u)" != "0" ]; then
