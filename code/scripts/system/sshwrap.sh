@@ -7,5 +7,5 @@
 if [ "$#" -lt 2 ]; then
 	ssh $1
 else
-	ssh $1 -x "${*:2}"
+	ssh $1 -t -x "${*:2}"
 fi;
