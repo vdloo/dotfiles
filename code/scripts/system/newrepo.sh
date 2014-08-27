@@ -11,7 +11,7 @@ DEFAULT_PORT=$PORT
 BASE="${PWD##*/}"
 
 mkdir -p "$HOME/dotfiles"
-REPOSCRIPT="$HOME/dotfiles/.repostrap.sh"
+REPOSCRIPT="$HOME/.dotfiles-private/code/scripts/system/repostrap-projects-private.sh"
 
 if [ -d .git ]; then
 	echo "This folder is already a git repository"
@@ -67,7 +67,7 @@ else
 				cd ~
 			EOF
 		) && (
-			cd ~/dotfiles && git add .repostrap.sh && git commit -m "added $PJNAME repo to repo bootstrap script"
+			cd $(dirname $REPOSCRIPT) && git add .repostrap.sh && git commit -m "added $PJNAME repo to repo bootstrap script"
 		)
 	else
 		echo "Project name contains invalid characters, change the name and try again"
