@@ -44,9 +44,9 @@ type -p vim \
 cd ~
 [ -d code ] \
 	&& ( 	cd ~/.dotfiles-public/code/scripts/provision/ \
-			&& [ -f repostrap_projects_public.sh ] \
-				&& ./repostrap_projects_public.sh
+			&& [ -f repostrap-projects-public.sh ] \
+				&& ./repostrap-projects-public.sh
 		cd ~/.dotfiles-private/code/scripts/provision/ \
-			&& [ -f repostrap_projects_private.sh ] \
-				&& ./repostrap_projects_private.sh
+			&& [ -f repostrap-projects-private.sh ] \
+				&& ./repostrap-projects-private.sh
 	)
