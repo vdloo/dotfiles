@@ -11,7 +11,7 @@ DEFAULT_PORT=$PORT
 BASE="${PWD##*/}"
 
 mkdir -p "$HOME/dotfiles"
-REPOSCRIPT="$HOME/.dotfiles-private/code/scripts/system/repostrap-projects-private.sh"
+REPOSCRIPT="$HOME/.dotfiles-private/code/scripts/provision/repostrap-projects-private.sh"
 
 if [ -d .git ]; then
 	echo "This folder is already a git repository"
