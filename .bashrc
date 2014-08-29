@@ -9,6 +9,7 @@ if [ -z "$DISPLAY" ] && [ $(tty) == /dev/tty1 ]; then
 fi
 
 export EDITOR=vim
+export LANG=en_US.UTF-8
 
 alias ls='ls --color=auto --group-directories-first'
 alias s='ls --color=auto --group-directories-first'
