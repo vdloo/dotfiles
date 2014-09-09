@@ -6,7 +6,6 @@
 # startx if on tty1
 if [ -z "$DISPLAY" ] && [ $(tty) == /dev/tty1 ]; then
     	type -p startx && startx
-	[ $(xrandr | grep DVI | wc -l) -gt 1 ] && xrandr --output DVI-1 --left-of DVI-0 --mode 1680x1050
 fi
 
 export EDITOR=vim
