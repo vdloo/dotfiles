@@ -5,7 +5,7 @@
 
 # startx if on tty1
 if [ -z "$DISPLAY" ] && [ $(tty) == /dev/tty1 ]; then
-    	type -p startx && startx
+	type -p xbmc && xinit /usr/bin/xbmc --standalone || (type -p startx && startx)
 fi
 
 export EDITOR=vim
