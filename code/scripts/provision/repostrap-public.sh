@@ -47,6 +47,8 @@ cd ~
 			&& [ -f repostrap-projects-public.sh ] \
 				&& ./repostrap-projects-public.sh
 		cd ~/.dotfiles-private/code/scripts/provision/ \
+			&& git pull \
+		cd ~/.dotfiles-private/code/scripts/provision/ \
 			&& [ -f repostrap-projects-private.sh ] \
 				&& ./repostrap-projects-private.sh
 	)
