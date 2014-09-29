@@ -1,25 +1,27 @@
 <?php
-// the instagram API allows to either search for images based on a user OR by hashtags,
-// this script enables you to filter images from a certain user based on one or more hashtags
+/*
+the instagram API allows to either search for images based on a user OR by hashtags,
+this script enables you to filter images from a certain user based on one or more hashtags
 
-// Example:
+Example:
 
-// $token 	= 'your token'; 	// http://jelled.com/instagram/access-token
-// $userid 	= 'your userid'; 	// http://jelled.com/instagram/lookup-user-id
+$token 		= 'your token'; 	// http://jelled.com/instagram/access-token
+$userid 	= 'your userid'; 	// http://jelled.com/instagram/lookup-user-id
 
-// $hashtags	= array(
-//	'frontpage' 	=> ['globaltag'],
-//	'sub1'		=> ['globaltag', 'subtag'],
-// );
+$hashtags	= array(
+	'frontpage' 	=> ['globaltag'],
+	'sub1'		=> ['globaltag', 'subtag'],
+);
 
-// populate instagram image array
-// $instagram_sorted 	= instagram_by_hashtags_and_userid($token, $userid, $hashtags);
+populate instagram image array
+$instagram_sorted 	= instagram_by_hashtags_and_userid($token, $userid, $hashtags);
 
-// prints all image urls for the hashtags 'globaltag' and 'subtag';
-// foreach($instagram_sorted['sub1']['items'] as $post_obj) {
-//	$imgurl 	= $post_obj->images->standard_resolution->url;
-//	echo "image url: $imgurl\n";
-// }
+prints all image urls for the hashtags 'globaltag' and 'subtag';
+foreach($instagram_sorted['sub1']['items'] as $post_obj) {
+	$imgurl 	= $post_obj->images->standard_resolution->url;
+	echo "image url: $imgurl\n";
+}
+*/
 
 
 // get response from url
