@@ -21,7 +21,6 @@ function curl_text($url)
 	$data = curl_exec($curl_handle);
 	if ($data === FALSE) die(curl_error($curl_handle));
 	curl_close($curl_handle);
-	var_dump($data);
 	return $data;
 }
 
@@ -29,6 +28,7 @@ function curl_text($url)
 function text2instadat($response)
 {
 	$instaobj = json_decode($response);
+	if (!property_exists($instaobj, 'data')) die ("Failed to get valid data from Instagram API");
 	$instadat = $instaobj->data;
 	return $instadat;
 }
@@ -62,10 +62,35 @@ function find_tagged($instadat, $tags2check)
 	return $result;
 }
 
-function insta_img_array($token, $userid, $hashtags) {
+// curl Instagram api and return data array
+function data_from_instagram_api($token, $userid)
+{
 	$api_url 	= forge_api_url($token, $userid);
 	$response 	= curl_text($api_url);
-	$instadat		= text2instadat($response);
+	$instadat	= text2instadat($response);
+	return $instadat;
+}
+
+// returns data object from cache or Instagram API if cache doesn't exist or is too old.
+function cached_insta_response($token, $userid) 
+{
+	$instadat = 'failed';
+	$apicache = 'insta.json';
+	if (file_exists($apicache)) { // also check if too old
+		echo 'using cache';
+		$instadat = json_decode(file_get_contents($apicache));
+	} else {
+		echo 'calling api';
+		$instadat 	= data_from_instagram_api($token, $userid);
+		file_put_contents($apicache, json_encode($instadat));
+	}
+	return $instadat;
+}
+
+// return object containing posted Instagram posts by userid filtered based on hashtags
+function insta_img_array($token, $userid, $hashtags) {
+	$instadat = cached_insta_response($token, $userid);
+	if ($instadat == 'failed') die("failed to get the Instagram data array");
 
 	foreach($hashtags as $tagskey => $tags2check) {
 		$insta_img[$tagskey] = array(
@@ -78,5 +103,4 @@ function insta_img_array($token, $userid, $hashtags) {
 
 $itemsarray = insta_img_array($token, $userid, $hashtags);
 
-var_dump($itemsarray);
-?>
+//var_dump($itemsarray);
