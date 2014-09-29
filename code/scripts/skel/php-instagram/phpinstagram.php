@@ -91,10 +91,10 @@ function cached_insta_response($token, $userid)
 	$apicache 	= 'cache/insta_API.json';
 	// check if cache exists and if cache was created less than an hour ago
 	if (file_exists($apicache) && ((time() - filemtime($apicache)) < 60 * 60)) { 
-		echo 'using cache';
+		//echo 'using cache';
 		$instadat = json_decode(file_get_contents($apicache));
 	} else {
-		echo 'calling api';
+		//echo 'calling api';
 		$instadat 	= data_from_instagram_api($token, $userid);
 		file_put_contents($apicache, json_encode($instadat));
 	}
@@ -125,7 +125,7 @@ function cached_img_array($token, $userid, $hashtags)
 	$arrcache 	= 'cache/insta_arr.json';
 	// check if cache exists
 	if (file_exists($arrcache)) {
-		echo 'using cache';
+		//echo 'using cache';
 		$insta_img = json_decode(file_get_contents($arrcache));
 	} 
 	$insta_img	= insta_img_array($insta_img, $token, $userid, $hashtags);
