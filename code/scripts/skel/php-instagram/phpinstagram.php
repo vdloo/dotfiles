@@ -2,13 +2,25 @@
 // the instagram API allows to either search for images based on a user OR by hashtags,
 // this script enables you to filter images from a certain user based on one or more hashtags
 
-// $token 	= 'token'; 	// http://jelled.com/instagram/access-token
-// $userid 	= 'userid'; 	// http://jelled.com/instagram/lookup-user-id
+// Example:
 
-// $hashtags       = array(
-//	'frontpage'     => ['someglobalhashtag'],
-//	'sub1'          => ['someglobalhashtag', 'somespecifichashtag'],
-//);
+// $token 	= 'your token'; 	// http://jelled.com/instagram/access-token
+// $userid 	= 'your userid'; 	// http://jelled.com/instagram/lookup-user-id
+
+// $hashtags	= array(
+//	'frontpage' 	=> ['globaltag'],
+//	'sub1'		=> ['globaltag', 'subtag'],
+// );
+
+// populate instagram image array
+// $instagram_sorted 	= instagram_by_hashtags_and_userid($token, $userid, $hashtags);
+
+// prints all image urls for the hashtags 'globaltag' and 'subtag';
+// foreach($instagram_sorted['sub1']['items'] as $post_obj) {
+//	$imgurl 	= $post_obj->images->standard_resolution->url;
+//	echo "image url: $imgurl\n";
+// }
+
 
 // get response from url
 function curl_text($url) 
@@ -56,7 +68,8 @@ function find_tagged($instadat, $tags2check)
 		// add image to $result array if all hashtags in the $tags array were found
 		$tags2checkcount = count($tags2check);
 		if ($tags2checkcount > 0 && $tagcount == $tags2checkcount) {
-			array_push($result, $item);
+			$keyuuid 	= crc32($item->images->standard_resolution->url); // hash with crc32 so keys stay consistent 
+			$result[$keyuuid] = $item;
 		}
 	}
 	return $result;
@@ -74,9 +87,10 @@ function data_from_instagram_api($token, $userid)
 // returns data object from cache or Instagram API if cache doesn't exist or is too old.
 function cached_insta_response($token, $userid) 
 {
-	$instadat = 'failed';
-	$apicache = 'insta.json';
-	if (file_exists($apicache)) { // also check if too old
+	$instadat 	= 'failed';
+	$apicache 	= 'cache/insta_API.json';
+	// check if cache exists and if cache was created less than an hour ago
+	if (file_exists($apicache) && ((time() - filemtime($apicache)) < 60 * 60)) { 
 		echo 'using cache';
 		$instadat = json_decode(file_get_contents($apicache));
 	} else {
@@ -88,7 +102,8 @@ function cached_insta_response($token, $userid)
 }
 
 // return object containing posted Instagram posts by userid filtered based on hashtags
-function insta_img_array($token, $userid, $hashtags) {
+function insta_img_array($insta_img, $token, $userid, $hashtags) 
+{
 	$instadat = cached_insta_response($token, $userid);
 	if ($instadat == 'failed') die("failed to get the Instagram data array");
 
@@ -101,6 +116,29 @@ function insta_img_array($token, $userid, $hashtags) {
 	return $insta_img;
 }
 
-$itemsarray = insta_img_array($token, $userid, $hashtags);
+// loads Instagram image array into variable if cached and tries the API for new images
+// this is necesarry because the Instagram API only allows x results from their API, this way data about
+// older posts are saved to the server.
+function cached_img_array($token, $userid, $hashtags)
+{
+	$insta_img 	= Array();
+	$arrcache 	= 'cache/insta_arr.json';
+	// check if cache exists
+	if (file_exists($arrcache)) {
+		echo 'using cache';
+		$insta_img = json_decode(file_get_contents($arrcache));
+	} 
+	$insta_img	= insta_img_array($insta_img, $token, $userid, $hashtags);
+	// write image array to cache once an hour
+	if (file_exists($arrcache) && ((time() - filemtime($arrcache)) > 60 * 60)) {
+		file_put_contents($arrcache, json_encode($insta_img));
+	}
+	return $insta_img;
+}
 
-//var_dump($itemsarray);
+// returns array containing Instagram post information segmented by hashtags and userid.
+function instagram_by_hashtags_and_userid($token, $userid, $hashtags)
+{
+	$instagram_array = cached_img_array($token, $userid, $hashtags);
+	return $instagram_array;
+}
