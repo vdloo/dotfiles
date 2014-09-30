@@ -25,12 +25,14 @@ foreach($instagram_sorted['sub1']['items'] as $post_obj) {
 
 
 // try to fill with images from first category
-function fill_from_first($res, $instagram_sorted, $imgcount, $n)
+function fill_from_first($res, $instagram_sorted, $imgcount, $n, $shuf = false)
 {
 	if ($imgcount < $n) {
 		reset($instagram_sorted);
 		$firstcat = array_shift($instagram_sorted);
-		foreach($firstcat['items'] as $post_obj) {
+		$firstcat_items = $firstcat['items'];
+		if ($shuf) shuffle($firstcat_items);
+		foreach($firstcat_items as $post_obj) {
 			$imgurl = $post_obj->images->standard_resolution->url;
 			if (!in_array($imgurl, $res)) {
 				if ($imgcount < $n) {
@@ -76,7 +78,7 @@ function insta_random_n($instagram_sorted, $segment, $n = 10, $fill = false)
 		}
 		$imgcount++;
 	}
-	$fill ? $res = fill_from_first($res, $instagram_sorted, $imgcount, $n) : $res;
+	$fill ? $res = fill_from_first($res, $instagram_sorted, $imgcount, $n, true) : $res;
 	return $res;
 }
 
