@@ -47,7 +47,7 @@ function insta_random_n($instagram_sorted, $segment, $n = 10)
 	$temp		= Array();
 	foreach($instagram_sorted[$segment]['items'] as $post_obj) {
 		array_push($temp, $post_obj);
-		array_shuf($temp);
+		shuffle($temp);
 	}
 	foreach($temp as $post_obj) {
 		if ($imgcount < n) {
