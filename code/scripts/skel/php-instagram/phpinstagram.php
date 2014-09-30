@@ -23,8 +23,28 @@ foreach($instagram_sorted['sub1']['items'] as $post_obj) {
 }
 */
 
+
+// try to fill with images from first category
+function fill_from_first($res, $instagram_sorted, $imgcount, $n)
+{
+	if ($imgcount < $n) {
+		reset($instagram_sorted);
+		$firstcat = array_shift($instagram_sorted);
+		foreach($firstcat['items'] as $post_obj) {
+			$imgurl = $post_obj->images->standard_resolution->url;
+			if (!in_array($imgurl, $res)) {
+				if ($imgcount < $n) {
+					array_push($res, $imgurl);
+				}
+				$imgcount++;
+			}
+		}
+	}
+	return $res;
+}
+
 // return array with n latest urls pointing to instagram images selected with the 'segment' key
-function insta_latest_n($instagram_sorted, $segment, $n = 10)
+function insta_latest_n($instagram_sorted, $segment, $n = 10, $fill = false)
 {
 	$imgcount 	= 0;
 	$maximgs	= $n;
@@ -35,11 +55,12 @@ function insta_latest_n($instagram_sorted, $segment, $n = 10)
 		}
 		$imgcount++;
 	}
+	$fill ? $res = fill_from_first($res, $instagram_sorted, $imgcount, $n) : $res;
 	return $res;
 }
 
 // return array with n latest urls pointing to instagram images selected with the 'segment' key
-function insta_random_n($instagram_sorted, $segment, $n = 10)
+function insta_random_n($instagram_sorted, $segment, $n = 10, $fill = false)
 {
 	$imgcount 	= 0;
 	$maximgs	= $n;
@@ -55,6 +76,7 @@ function insta_random_n($instagram_sorted, $segment, $n = 10)
 		}
 		$imgcount++;
 	}
+	$fill ? $res = fill_from_first($res, $instagram_sorted, $imgcount, $n) : $res;
 	return $res;
 }
 
