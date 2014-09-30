@@ -23,6 +23,40 @@ foreach($instagram_sorted['sub1']['items'] as $post_obj) {
 }
 */
 
+// return array with n latest urls pointing to instagram images selected with the 'segment' key
+function insta_latest_n($instagram_sorted, $segment, $n = 10)
+{
+	$imgcount 	= 0;
+	$maximgs	= $n;
+	$res		= Array();
+	foreach($instagram_sorted[$segment]['items'] as $post_obj) {
+		if ($imgcount < n) {
+			array_push($res, $post_obj->images->standard_resolution->url);
+		}
+		$imgcount++;
+	}
+	return $res;
+}
+
+// return array with n latest urls pointing to instagram images selected with the 'segment' key
+function insta_random_n($instagram_sorted, $segment, $n = 10)
+{
+	$imgcount 	= 0;
+	$maximgs	= $n;
+	$res		= Array();
+	$temp		= Array();
+	foreach($instagram_sorted[$segment]['items'] as $post_obj) {
+		array_push($temp, $post_obj);
+		array_shuf($temp);
+	}
+	foreach($temp as $post_obj) {
+		if ($imgcount < n) {
+			array_push($res, $post_obj->images->standard_resolution->url);
+		}
+		$imgcount++;
+	}
+	return $res;
+}
 
 // get response from url
 function curl_text($url) 
@@ -128,13 +162,14 @@ function cached_img_array($token, $userid, $hashtags)
 	// check if cache exists
 	if (file_exists($arrcache)) {
 		//echo 'using cache';
-		$insta_img = json_decode(file_get_contents($arrcache));
+		$insta_img = json_decode(file_get_contents($arrcache), true);
 	} 
 	$insta_img	= insta_img_array($insta_img, $token, $userid, $hashtags);
 	// write image array to cache once an hour
-	if (file_exists($arrcache) && ((time() - filemtime($arrcache)) > 60 * 60)) {
+	if (!file_exists($arrcache) || ((time() - filemtime($arrcache)) > 60 * 60)) {
 		file_put_contents($arrcache, json_encode($insta_img));
 	}
+
 	return $insta_img;
 }
 
