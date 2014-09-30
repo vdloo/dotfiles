@@ -30,7 +30,7 @@ function insta_latest_n($instagram_sorted, $segment, $n = 10)
 	$maximgs	= $n;
 	$res		= Array();
 	foreach($instagram_sorted[$segment]['items'] as $post_obj) {
-		if ($imgcount < n) {
+		if ($imgcount < $n) {
 			array_push($res, $post_obj->images->standard_resolution->url);
 		}
 		$imgcount++;
@@ -50,7 +50,7 @@ function insta_random_n($instagram_sorted, $segment, $n = 10)
 		shuffle($temp);
 	}
 	foreach($temp as $post_obj) {
-		if ($imgcount < n) {
+		if ($imgcount < $n) {
 			array_push($res, $post_obj->images->standard_resolution->url);
 		}
 		$imgcount++;
