@@ -23,7 +23,6 @@ foreach($instagram_sorted['sub1']['items'] as $post_obj) {
 }
 */
 
-
 // try to fill with images from first category
 function fill_from_first($res, $instagram_sorted, $imgcount, $n, $shuf = false)
 {
@@ -82,7 +81,7 @@ function insta_random_n($instagram_sorted, $segment, $n = 10, $fill = false)
 	return $res;
 }
 
-// get response from url
+// get text response from url
 function curl_text($url) 
 {
 	$curl_handle = curl_init();
@@ -94,6 +93,30 @@ function curl_text($url)
 	if ($data === FALSE) die(curl_error($curl_handle));
 	curl_close($curl_handle);
 	return $data;
+}
+
+// save img from url
+function cache_image($url)
+{
+	$imagepath = 'cache/'.basename($url);
+	if (!file_exists($imagepath)) {
+		$curl_handle = curl_init();
+		$to = 20;
+		curl_setopt($curl_handle, CURLOPT_HEADER, 0);
+		curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl_handle, CURLOPT_BINARYTRANSFER,1);
+		$data = curl_exec($curl_handle);
+		if ($data !== FALSE || $data == 'Invalid Request') {
+			$filepointer = fopen($imagepath, 'x');
+			fwrite($filepointer, $data);
+			fclose($filepointer);
+			return $imagepath;
+		} else {
+			return false;
+		}
+	} else {
+		return $imagepath;
+	}
 }
 
 // turn api text response into data array
@@ -129,7 +152,11 @@ function find_tagged($instadat, $tags2check)
 		$tags2checkcount = count($tags2check);
 		if ($tags2checkcount > 0 && $tagcount == $tags2checkcount) {
 			$keyuuid 	= crc32($item->images->standard_resolution->url); // hash with crc32 so keys stay consistent 
-			$result[$keyuuid] = $item;
+			$localimg	= cache_image($item->images->standard_resolution->url);
+			if ($localimg) {
+				$result[$keyuuid] = $item;
+				$result[$keyuuid]->images->standard_resolution->url = $localimg;
+			}
 		}
 	}
 	return $result;
