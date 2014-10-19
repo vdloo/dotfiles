@@ -72,10 +72,10 @@ def usage():
     print "Usage:   -f [origin dir] -t [destination dir] -a [allocated space in bytes]"
     print "Exampe:  ./latest -f folder1 -t folder2 -a 40000000"
 
-VERBOSE     = False
+VERBOSE         = False
 def main():
     ORIGPATH    = False
-    DESTPATH      = False
+    DESTPATH    = False
     ALLOCATED   = False
 
     # getopts to handle arguments
