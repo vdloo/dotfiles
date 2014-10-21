@@ -8,7 +8,6 @@
 PYTHONPATH="/volume1/@appstore/python/bin/python2.7" 			# Python binary location on the remote machine
 SCRIPTPATH="/volume1/RAID5/other/code/scripts/system/latestfilter.py" 	# Filter script location on the remote machine
 ORIGDIR="/volume1/RAID5/series/"					# Dir of file collection on the remote machine
-DESTDIR="/volume1/RAID5/other/download/latest/$TEMPSTOR"		# Symlink storage folder on the remote machine
 LOCALDIR="$HOME/Downloads/series"					# Dir for the synced data on the local machine
 ALLOCATEDSPACE="300000000000" 						# Default value of how much bytes to sync 300G				
 
@@ -16,7 +15,7 @@ unset REMOTEHOST
 PORT="22"
 USER=$(whoami)
 
-while getopts "y:s:o:d:l:a:h:p:u:" opt; do
+while getopts "y:s:o:d:l:a:h:p:u:t:" opt; do
 	case "$opt" in
 		y)
 			PYTHONPATH="$OPTARG" ;;
@@ -36,8 +35,12 @@ while getopts "y:s:o:d:l:a:h:p:u:" opt; do
 			PORT="$OPTARG" ;;
 		u)
 			USER="$OPTARG" ;;
+		t)
+			TEMPSTOR="$OPTARG" ;; 				# Temp directory name overwrite for $HOSTNAME
 	esac
 done
+
+DESTDIR="/volume1/RAID5/other/download/latest/$TEMPSTOR"		# Symlink storage folder on the remote machine
 
 if [ -z "$REMOTEHOST" ]; then
 	echo "Specify a remote host with the -h flag"
