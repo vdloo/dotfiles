@@ -22,4 +22,4 @@ done
 [ ! -f ~/.ssh/id_rsa ] \
 	&& ssh-keygen -b 4096 -f ~/.ssh/id_rsa -t rsa -N ''
 # add public key to remote host for auto login
-ssh-copy-id $USER@$REMOTEHOST -p $PORT
+ssh-copy-id "$USER@$REMOTEHOST -p $PORT"
