@@ -40,7 +40,7 @@ while getopts "y:s:o:d:l:a:h:p:u:t:" opt; do
 	esac
 done
 
-DESTDIR="/volume1/RAID5/other/download/latest/$TEMPSTOR"		# Symlink storage folder on the remote machine
+DESTDIR="/volume1/RAID5/other/latest/$TEMPSTOR"				# Symlink storage folder on the remote machine
 
 if [ -z "$REMOTEHOST" ]; then
 	echo "Specify a remote host with the -h flag"
