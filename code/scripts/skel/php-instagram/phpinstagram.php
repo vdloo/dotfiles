@@ -35,7 +35,7 @@ function fill_from_first($res, $instagram_sorted, $imgcount, $n, $shuf = false)
 			$imgurl = $post_obj->images->standard_resolution->url;
 			if (!in_array($imgurl, $res)) {
 				if ($imgcount < $n) {
-					array_push($res, $imgurl);
+					$res[$post_obj->link] = $imgurl;
 				}
 				$imgcount++;
 			}
@@ -52,7 +52,7 @@ function insta_latest_n($instagram_sorted, $segment, $n = 10, $fill = false)
 	$res		= Array();
 	foreach($instagram_sorted[$segment]['items'] as $post_obj) {
 		if ($imgcount < $n) {
-			array_push($res, $post_obj->images->standard_resolution->url);
+			$res[$post_obj->link] = $imgurl;
 		}
 		$imgcount++;
 	}
@@ -102,11 +102,13 @@ function cache_image($url)
 	if (!file_exists($imagepath)) {
 		$curl_handle = curl_init();
 		$to = 20;
+		curl_setopt($curl_handle, CURLOPT_URL, $url);
 		curl_setopt($curl_handle, CURLOPT_HEADER, 0);
 		curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl_handle, CURLOPT_BINARYTRANSFER,1);
+		curl_setopt($curl_handle, CURLOPT_BINARYTRANSFER, 1);
+		curl_setopt($curl_handle, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 		$data = curl_exec($curl_handle);
-		if ($data !== FALSE || $data == 'Invalid Request') {
+		if ($data !== FALSE || strcmp($data, 'Invalid Request') == 0) {
 			$filepointer = fopen($imagepath, 'x');
 			fwrite($filepointer, $data);
 			fclose($filepointer);
