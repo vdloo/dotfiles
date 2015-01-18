@@ -3,9 +3,35 @@
 # return if not running as interactive
 [[ $- != *i* ]] && return
 
-# startx if on tty1
-if [ -z "$DISPLAY" ] && [ $(tty) == /dev/tty1 ]; then
-	type -p xbmc && xinit /usr/bin/xbmc --standalone || (type -p startx && startx)
+
+if [ -f ~/.machinerc ]; then
+	# do things for core
+#	if grep '^core$' ~/.machinerc -q; then
+#	fi
+
+	# do things for desktop
+	if grep '^desktop$' ~/.machinerc -q; then
+		[ -f ~/.promptpodcasts ] || touch ~/.promptpodcasts
+		if test `find ~/.promptpodcasts -mmin +1440`
+		then
+			while true; do
+				read -p "Download new podcasts? y/n:" yn
+				case $yn in
+					[Yy]* ) bash ~/code/downloads/mashpodder/mashpodder.sh & break;;
+					* ) break;;
+				esac
+			done
+			touch ~/.promptpodcasts
+		fi
+	fi
+
+	# do things for htpc
+	if grep '^htpc$' ~/.machinerc -q; then
+		# startx if on tty1
+		if [ -z "$DISPLAY" ] && [ $(tty) == /dev/tty1 ]; then
+			type -p xbmc && xinit /usr/bin/xbmc --standalone || (type -p startx && startx)
+		fi
+	fi
 fi
 
 export EDITOR=vim
