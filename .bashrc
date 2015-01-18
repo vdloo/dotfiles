@@ -21,3 +21,5 @@ alias define='sdcv --utf8-output'
 alias newrepo="~/dotfiles/newrepo.sh"
 
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
+# bashrc for local machine, add all machine specific stuff here
+[ -f ~/.bashrc-local ] && source ~/.bashrc-local
