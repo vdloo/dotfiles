@@ -37,6 +37,11 @@ fi
 export EDITOR=vim
 export LANG=en_US.UTF-8
 
+# source Virtualenv stuff
+export WORKON_HOME=$HOME/.virtualenvs
+VEW='/usr/share/virtualenvwrapper/virtualenvwrapper.sh'
+[ -f "$VEW" ] && source "$VEW"
+
 alias ls='ls --color=auto --group-directories-first'
 alias s='ls --color=auto --group-directories-first'
 alias xc='xclip -selection c -i'
