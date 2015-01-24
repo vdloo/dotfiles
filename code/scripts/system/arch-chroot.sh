@@ -1,5 +1,5 @@
 #!/bin/bash
-MIR="http://arch.apt-get.eu/iso/2014.08.01/"
+MIR="http://arch.apt-get.eu/iso/latest/"
 cd /tmp
 TARURL="${MIR}$(curl -s $MIR | grep -E 'archlinux-bootstrap.*x86_64.tar.gz\"' | grep -oP '(?<=href=")[^"]*(?=")')"
 wget "$TARURL"
