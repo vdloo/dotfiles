@@ -67,15 +67,17 @@ function insta_random_n($instagram_sorted, $segment, $n = 10, $fill = false)
 	$maximgs	= $n;
 	$res		= Array();
 	$temp		= Array();
-	foreach($instagram_sorted[$segment]['items'] as $post_obj) {
-		array_push($temp, $post_obj);
-		shuffle($temp);
-	}
-	foreach($temp as $post_obj) {
-		if ($imgcount < $n) {
-			array_push($res, $post_obj->images->standard_resolution->url);
+	if ($instagram_sorted[$segment]) {
+		foreach($instagram_sorted[$segment]['items'] as $post_obj) {
+			array_push($temp, $post_obj);
+			shuffle($temp);
 		}
-		$imgcount++;
+		foreach($temp as $post_obj) {
+			if ($imgcount < $n) {
+				array_push($res, $post_obj->images->standard_resolution->url);
+			}
+			$imgcount++;
+		}
 	}
 	$fill ? $res = fill_from_first($res, $instagram_sorted, $imgcount, $n, true) : $res;
 	return $res;
