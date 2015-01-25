@@ -8,7 +8,6 @@ static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*
 static const char normbordercolor[] = "#444444";
 static const char normbgcolor[]     = "#3f3f3f";
 /*static const char normbgcolor[]     = "#222222";*/
-
 static const char normfgcolor[]     = "#bbbbbb";
 static const char selbordercolor[]  = "#3f3f3f";
 static const char selbgcolor[]      = "#3f3f3f";
@@ -23,7 +22,11 @@ static const Bool topbar            = True;     /* False means bottom bar */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
+	/* class      instance    title       tags mask     isfloating   monitor */
+
+	/* launch xbmc on second monitor */
+	{ "xbmc.bin",         NULL,      NULL,      1,            False,        1 },
+	{ "kodi.bin",         NULL,      NULL,      1,            False,        1 },
 };
 
 /* layout(s) */
