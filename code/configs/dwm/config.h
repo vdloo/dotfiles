@@ -26,7 +26,7 @@ static const Rule rules[] = {
 
 	/* launch xbmc on second monitor */
 	{ "xbmc.bin",         NULL,      NULL,      1,            False,        1 },
-	{ "kodi.bin",         NULL,      NULL,      1,            False,        1 },
+	{ "Kodi",             NULL,      NULL,      1,            False,        1 },
 };
 
 /* layout(s) */
