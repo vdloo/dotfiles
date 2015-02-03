@@ -47,6 +47,8 @@ if [ -z "$REMOTEHOST" ]; then
 	echo "Specify a remote host with the -h flag"
 else
 	if ssh -p $PORT $USER@$REMOTEHOST -q "echo 2>&1"; then
+		# if plock older than uptime, delete.
+		find $HOME/.smallsync.plock -type d -mmin +$(expr $(cat /proc/uptime | cut -d'.' -f1) / 60) -delete
 		if mkdir $HOME/.smallsync.plock; then
 			trap "rm -R $HOME/.smallsync.plock" INT TERM EXIT
 			ssh -p $PORT $USER@$REMOTEHOST -q "$PYTHONPATH $SCRIPTPATH -f $ORIGDIR -t $DESTDIR -a $ALLOCATEDSPACE -v"
