@@ -48,9 +48,11 @@ if [ -z "$REMOTEHOST" ]; then
 else
 	if ssh -p $PORT $USER@$REMOTEHOST -q "echo 2>&1"; then
 		if mkdir $HOME/.smallsync.plock; then
+			trap "rm -R $HOME/.smallsync.plock" INT TERM EXIT
 			ssh -p $PORT $USER@$REMOTEHOST -q "$PYTHONPATH $SCRIPTPATH -f $ORIGDIR -t $DESTDIR -a $ALLOCATEDSPACE -v"
 			rsync --rsync-path=/usr/syno/bin/rsync -L --rsh="ssh -p $PORT" -avz $USER@$REMOTEHOST:$DESTDIR $LOCALDIR --delete --progress
 			rm -R $HOME/.smallsync.plock;
+			trap - INT TERM EXIT
 		else
 			echo "sync already running in background (if not delete the .plock file manually)"
 		fi;
