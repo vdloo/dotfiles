@@ -48,7 +48,7 @@ if [ -z "$REMOTEHOST" ]; then
 else
 	if ssh -p $PORT $USER@$REMOTEHOST -q "echo 2>&1"; then
 		# if plock older than uptime, delete.
-		plockdir="$HOME/.smallsync$(echo "$DESTDIR" | md5sum | awk '{print $1}').plock"
+		plockdir="$HOME/.smallsync$(echo "$LOCALDIR" | md5sum | awk '{print $1}').plock"
 		find $plockdir -type d -mmin +$(expr $(cat /proc/uptime | cut -d'.' -f1) / 60 + 1) -delete
 		if mkdir $plockdir; then
 			trap "rm -R $plockdir" INT TERM EXIT
