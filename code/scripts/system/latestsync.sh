@@ -48,12 +48,13 @@ if [ -z "$REMOTEHOST" ]; then
 else
 	if ssh -p $PORT $USER@$REMOTEHOST -q "echo 2>&1"; then
 		# if plock older than uptime, delete.
-		find $HOME/.smallsync.plock -type d -mmin +$(expr $(cat /proc/uptime | cut -d'.' -f1) / 60 + 1) -delete
-		if mkdir $HOME/.smallsync.plock; then
-			trap "rm -R $HOME/.smallsync.plock" INT TERM EXIT
+		plockdir="$HOME/.smallsync$(echo "$DESTDIR" | md5sum | awk '{print $1}').plock"
+		find $plockdir -type d -mmin +$(expr $(cat /proc/uptime | cut -d'.' -f1) / 60 + 1) -delete
+		if mkdir $plockdir; then
+			trap "rm -R $plockdir" INT TERM EXIT
 			ssh -p $PORT $USER@$REMOTEHOST -q "$PYTHONPATH $SCRIPTPATH -f $ORIGDIR -t $DESTDIR -a $ALLOCATEDSPACE -v"
 			rsync --rsync-path=/usr/syno/bin/rsync -L --rsh="ssh -p $PORT" -avz $USER@$REMOTEHOST:$DESTDIR $LOCALDIR --delete --progress
-			rm -R $HOME/.smallsync.plock;
+			rm -R $plockdir;
 			trap - INT TERM EXIT
 		else
 			echo "sync already running in background (if not delete the .plock file manually)"
