@@ -95,6 +95,7 @@ urxvt*color15:     #ffffff
 
 
 !{{{ XTERM
+xterm*selectToClipboard:  true
 xterm*internalBorder:        0
 xterm*loginShell:         true
 xterm*scrollBar:         false
