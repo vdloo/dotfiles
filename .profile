@@ -17,5 +17,5 @@ fi
 xrandr --output `xrandr | grep connected | cut -d ' ' -f1` --mode 1920x1080
 
 # There is no dark side of the moon really. Matter of fact it's all dark.
-[ -f ~/.wallpaper ] || wget http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-73873.png -O ~/.wallpaper &
+[ -f ~/.wallpaper ] || (wget http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-73873.png -O ~/.wallpaper &)
 type -p feh && feh --bg-scale ~/.wallpaper
