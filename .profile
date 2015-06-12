@@ -14,7 +14,7 @@ fi
 # .profile for local machine, add all machine specific profile stuff here
 [ -f ~/.profile-local ] && source ~/.profile-local
 
-xrandr --output `xrandr | grep connected | cut -d ' ' -f1` --mode 1920x1080
+xrandr --output `xrandr -q | grep ' connected' | cut -d' ' -f1` --mode `xrandr -q | grep ' connected' -A1 | tail -n 1 | awk '{print }'`
 
 # There is no dark side of the moon really. Matter of fact it's all dark.
 [ -f ~/.wallpaper ] || (wget http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-73873.png -O ~/.wallpaper &)
