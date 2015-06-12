@@ -15,10 +15,10 @@ alias ls='ls --color=auto --group-directories-first'
 alias s='ls --color=auto --group-directories-first'
 alias xc='xclip -selection c -i'
 alias bc='acpi -V'
-alias redwm='cd ~/dwm; makepkg -g >> PKGBUILD; makepkg -efi --noconfirm; killall dwm'
 alias sdcv='sdcv --utf8-output'
 alias define='sdcv --utf8-output'
-alias newrepo="~/dotfiles/newrepo.sh"
+alias gc='git commit --verbose'
+alias gp='git push origin HEAD' 
 
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
 # bashrc for local machine, add all machine specific stuff here
