@@ -1,0 +1,9 @@
+[Unit]
+Description=Jenkins Daemon
+
+[Service]
+ExecStart=/usr/bin/java -jar /var/lib/jenkins/jenkins.war --httpPort=8089
+User=jenkins
+
+[Install]
+WantedBy=multi-user.target
