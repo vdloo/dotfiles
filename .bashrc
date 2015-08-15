@@ -19,6 +19,7 @@ alias sdcv='sdcv --utf8-output'
 alias define='sdcv --utf8-output'
 alias gc='git commit --verbose'
 alias gp='git push origin HEAD' 
+alias cdm='cd /mnt/data/media/0/'
 
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
 # bashrc for local machine, add all machine specific stuff here
