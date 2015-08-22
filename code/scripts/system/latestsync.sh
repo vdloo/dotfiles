@@ -53,7 +53,12 @@ else
 		if mkdir $plockdir; then
 			trap "rm -R $plockdir" INT TERM EXIT
 			ssh -p $PORT $USER@$REMOTEHOST -q "$PYTHONPATH $SCRIPTPATH -f $ORIGDIR -t $DESTDIR -a $ALLOCATEDSPACE -v"
-			rsync --rsync-path=/usr/syno/bin/rsync -L --rsh="ssh -p $PORT" -avz $USER@$REMOTEHOST:$DESTDIR $LOCALDIR --delete --progress
+
+			# can't use -a for archiving because mkstemp() is broken on Android http://code.activestate.com/lists/perl5-porters/219380/
+			# to still make sure rsync only syncs files that do not exist on the target yet the --size-only check is good enough
+			# see: http://www.xoomforums.com/forum/xoom-rescue-squad-help/3215-anyone-succesfully-using-rsync-rsyncdroid.html#post126163
+			rsync --rsync-path=/usr/syno/bin/rsync -L --rsh="ssh -p $PORT" -rv --inplace --size-only --ignore-errors $USER@$REMOTEHOST:$DESTDIR $LOCALDIR --delete --progress
+
 			rm -R $plockdir;
 			trap - INT TERM EXIT
 		else
