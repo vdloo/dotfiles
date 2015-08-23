@@ -46,25 +46,30 @@ DESTDIR="/volume1/RAID5/other/latest/$TEMPSTOR"				# Symlink storage folder on t
 if [ -z "$REMOTEHOST" ]; then
 	echo "Specify a remote host with the -h flag"
 else
-	if ssh -p $PORT $USER@$REMOTEHOST -q "echo 2>&1"; then
-		# if plock older than uptime, delete.
-		plockdir="$HOME/.smallsync$(echo "$LOCALDIR" | md5sum | awk '{print $1}').plock"
-		find $plockdir -type d -mmin +$(expr $(cat /proc/uptime | cut -d'.' -f1) / 60 + 1) -delete 2>/dev/null
-		if mkdir $plockdir 2>/dev/null; then
-			trap "rm -R $plockdir" INT TERM EXIT
-			ssh -p $PORT $USER@$REMOTEHOST -q "$PYTHONPATH $SCRIPTPATH -f $ORIGDIR -t $DESTDIR -a $ALLOCATEDSPACE -v"
+	ADDR=`ip addr | grep -v 'link' | grep 'enp\|wlp\|wlan\|eth' | grep inet | sed 's/.*inet \([0-9.]*\).*/\1/g' | head -n  1`
+	if [ -n "$ADDR" ]; then
+		if ssh -p $PORT $USER@$REMOTEHOST -q "echo 2>&1"; then
+			# if plock older than uptime, delete.
+			plockdir="$HOME/.smallsync$(echo "$LOCALDIR" | md5sum | awk '{print $1}').plock"
+			find $plockdir -type d -mmin +$(expr $(cat /proc/uptime | cut -d'.' -f1) / 60 + 1) -delete 2>/dev/null
+			if mkdir $plockdir 2>/dev/null; then
+				trap "rm -R $plockdir" INT TERM EXIT
+				ssh -oBindAddress=$ADDR -p $PORT $USER@$REMOTEHOST -q "$PYTHONPATH $SCRIPTPATH -f $ORIGDIR -t $DESTDIR -a $ALLOCATEDSPACE -v"
 
-			# can't use -a for archiving because mkstemp() is broken on Android http://code.activestate.com/lists/perl5-porters/219380/
-			# to still make sure rsync only syncs files that do not exist on the target yet the --size-only check is good enough
-			# see: http://www.xoomforums.com/forum/xoom-rescue-squad-help/3215-anyone-succesfully-using-rsync-rsyncdroid.html#post126163
-			rsync --rsync-path=/usr/syno/bin/rsync -L --rsh="ssh -p $PORT" -rv --inplace --size-only --ignore-errors $USER@$REMOTEHOST:$DESTDIR $LOCALDIR --delete --progress
+				# can't use -a for archiving because mkstemp() is broken on Android http://code.activestate.com/lists/perl5-porters/219380/
+				# to still make sure rsync only syncs files that do not exist on the target yet the --size-only check is good enough
+				# see: http://www.xoomforums.com/forum/xoom-rescue-squad-help/3215-anyone-succesfully-using-rsync-rsyncdroid.html#post126163
+				rsync --rsync-path=/usr/syno/bin/rsync -L --rsh="ssh -p $PORT -oBindAddress=$ADDR" -rv --inplace --size-only --ignore-errors $USER@$REMOTEHOST:$DESTDIR $LOCALDIR --delete --progress
 
-			rm -R $plockdir;
-			trap - INT TERM EXIT
+				rm -R $plockdir;
+				trap - INT TERM EXIT
+			else
+				echo "sync already running in background (if not delete the .plock file manually)"
+			fi;
 		else
-			echo "sync already running in background (if not delete the .plock file manually)"
+			echo "Failed to connect to the remote system over ssh."
 		fi;
 	else
-		echo "Failed to connect to the remote system over ssh."
+		echo "No suitable network interface available. Aborting script"
 	fi;
 fi;
