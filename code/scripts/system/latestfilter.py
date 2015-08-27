@@ -24,8 +24,11 @@ sizlist     = lambda i: map(os.path.getsize, i)         # get filesize for each 
 combine     = lambda i: zip(i, sizlist(i), modlist(i))  # 
 # create a list of tuples with the absolute path, file size and modification time
 filedat         = lambda x: combine(absfilelist(x)) 
+# filter out files that are smaller than a certain amount of bytes
+filedat_min_100M	= lambda x: filter(lambda y: y[1] > 100000000, filedat(x))
 # sort that list of tuples based on modification date (newest first)
-filedat_by_time = lambda x: sorted(filedat(x), key=itemgetter(2), reverse=True)
+filedat_by_tim 		= lambda x: sorted(filedat_min_100M(x), key=itemgetter(2), reverse=True)
+
 
 def symlink(p, np):
     try:
