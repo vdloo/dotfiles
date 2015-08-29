@@ -53,7 +53,7 @@ autocmd BufRead,BufNewFile *.md,*.txt syntax off
 autocmd BufRead,BufNewFile *.scm set tabstop=2
 autocmd BufRead,BufNewFile *.scm set shiftwidth=2
 autocmd BufRead,BufNewFile *.scm set expandtab
-
+autocmd BufRead,BufNewFile *.rkt inoremap lambda λ
 
 "Map f9 to lambda replace
 map #9 :%s/lambda/λ/g<CR>
