@@ -1,0 +1,5 @@
+ActivePlayers=$(curl -s -u xbmc:xbmc -X POST -H 'Content-type: application/json' -d '{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}' http://localhost:8088/jsonrpc)
+if ! echo $ActivePlayers | grep 'audio\|video' > /dev/null 2>&1
+then
+	curl -s --data-binary '{ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "partymode": "music"}}, "id":1}' -H 'content-type: application/json;' http://localhost:8088/jsonrpc > /dev/null 2>&1
+fi
