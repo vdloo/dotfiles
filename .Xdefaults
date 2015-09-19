@@ -5,11 +5,6 @@ XTerm*faceSize:     8
 !XTerm*background: #2d2d2d
 !XTerm*foreground: white
 
-# I think most of this is from here:
-# http://git.sysphere.org/dotfiles/plain/Xdefaults
-# Honestly no idea where I found this once upon a time
-
-# Don't forget to install terminus-font in arch or else spacing will be messed up
 
 !{{{ XFT
 Xft.dpi:       96
