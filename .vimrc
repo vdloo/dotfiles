@@ -21,6 +21,15 @@ Plugin 'bling/vim-airline'
 "vim-gutter plugin: git diff in column
 Plugin 'airblade/vim-gitgutter'
 
+"vim-fugitive: git wrapper
+Plugin 'tpope/vim-fugitive'
+
+"L9"
+Plugin 'L9'
+
+"vim-fuzzyfinder: quickly find buffer/file/command/bookmark/tag
+Plugin 'FuzzyFinder'
+
 "End of Vundle configurations
 call vundle#end()
 
@@ -30,18 +39,11 @@ filetype plugin indent on
 colorscheme zenburn
 set t_Co=256
 
-"bindings for folding
-map ,f :set foldmethod=indent<cr>zM<cr>
-map ,F :set foldmethod=manual<cr>zR<cr>
-
 "bindings for navigating windows
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
-
-"Map jk to escape
-inoremap jk <Esc>
 
 syntax enable             
 autocmd BufRead,BufNewFile *.scm,*.c,*.py,*.sh,*.cpp,*.php,*.html,*.css,*.js,*.json,*.*rc syntax on
@@ -57,3 +59,8 @@ autocmd BufRead,BufNewFile *.rkt inoremap lambda λ
 
 "Map f9 to lambda replace
 map #9 :%s/lambda/λ/g<CR>
+
+"Fuzzyfinder keybinds
+nmap ,b :FufLine<CR>
+nmap ,t :FufFile<CR>
+nmap ,f :FufTag<CR>
