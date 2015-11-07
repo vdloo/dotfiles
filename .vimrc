@@ -24,6 +24,9 @@ Plugin 'airblade/vim-gitgutter'
 "vim-fugitive: git wrapper
 Plugin 'tpope/vim-fugitive'
 
+" Slime
+Plugin 'jpalardy/vim-slime'
+
 "L9"
 Plugin 'L9'
 
