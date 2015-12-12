@@ -21,6 +21,7 @@ alias gc='git commit --verbose'
 alias gp='git push origin HEAD' 
 alias cdm='cd /mnt/data/media/0/'
 alias vagrant='OSTYPE=$OSTYPE vagrant'
+alias 1080="xrandr -q | grep ' connnected' | awk '{print$\1}' | xargs -I {} xrandr --output {} --mode 1920x1080"
 
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
 # bashrc for local machine, add all machine specific stuff here
