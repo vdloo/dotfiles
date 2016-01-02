@@ -33,6 +33,9 @@ Plugin 'L9'
 "vim-fuzzyfinder: quickly find buffer/file/command/bookmark/tag
 Plugin 'FuzzyFinder'
 
+"vim-taskwarrior plugin: interface for taskwarrior
+Plugin 'farseer90718/vim-taskwarrior'
+
 "End of Vundle configurations
 call vundle#end()
 
