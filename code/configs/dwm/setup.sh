@@ -4,7 +4,7 @@
 # Remember to install xinerama deps on fresh machines
 # sudo apt-get install libx11-dev libxinerama-dev
 
-type -p pacman 1> /dev/null & (
+type -p pacman 1> /dev/null && (
 	type -p git 1> /dev/null && (
 		 [ ! -d dwm ] && git clone http://git.suckless.org/dwm || (cd dwm; git fetch; git reset --hard origin/master);\
 		cat arch-config.h > dwm/config.h
