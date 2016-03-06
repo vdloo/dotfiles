@@ -28,3 +28,5 @@ alias t='task unblocked'
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
 # bashrc for local machine, add all machine specific stuff here
 [ -f ~/.bashrc-local ] && source ~/.bashrc-local
+
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 && -f /usr/etc/machineconf/workstation ]] && exec startx
