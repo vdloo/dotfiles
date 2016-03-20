@@ -5,4 +5,5 @@ xrandr --output `xrandr -q | grep ' connected' | cut -d' ' -f1` --mode `xrandr -
 [ -f ~/.wallpaper ] || wget http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-73873.png -O ~/.wallpaper
 type -p feh && feh --bg-scale ~/.wallpaper
 while :; do xsetroot -name "mem: $( free -m | grep Mem | awk '{print $3 / $2 * 100}')%  | $(date)"; sleep 10; done &
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 && -f /usr/etc/machineconf/htpc ]] && (sleep 10; export DISPLAY=:0; /usr/local/bin/kodi) &
 exec dwm
