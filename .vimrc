@@ -60,7 +60,9 @@ autocmd BufRead,BufNewFile *.md,*.txt noremap Q gqap
 autocmd BufRead,BufNewFile *.md,*.txt syntax off
 autocmd BufRead,BufNewFile *.scm set tabstop=2
 autocmd BufRead,BufNewFile *.scm set shiftwidth=2
-autocmd BufRead,BufNewFile *.scm set expandtab
+autocmd BufRead,BufNewFile *.c set tabstop=4
+autocmd BufRead,BufNewFile *.c set shiftwidth=4
+autocmd BufRead,BufNewFile *.scm,*.c set expandtab
 autocmd BufRead,BufNewFile *.rkt inoremap lambda λ
 
 "Map f9 to lambda replace
