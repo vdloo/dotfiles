@@ -27,6 +27,8 @@ alias vagrant='OSTYPE=$OSTYPE vagrant'
 alias 1080="xrandr -q | grep ' connnected' | awk '{print$\1}' | xargs -I {} xrandr --output {} --mode 1920x1080"
 alias uncommit='git reset --soft HEAD^'
 alias t='task unblocked'
+# https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
+git config --global alias.adog "log --all --decorate --oneline --graph"
 
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
 # bashrc for local machine, add all machine specific stuff here
