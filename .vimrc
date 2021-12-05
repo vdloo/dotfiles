@@ -33,8 +33,8 @@ Plugin 'L9'
 "vim-fuzzyfinder: quickly find buffer/file/command/bookmark/tag
 Plugin 'FuzzyFinder'
 
-"vim-taskwarrior plugin: interface for taskwarrior
-Plugin 'farseer90718/vim-taskwarrior'
+"vim-paredit
+Plugin 'vim-scripts/paredit.vim'
 
 "End of Vundle configurations
 call vundle#end()
@@ -58,12 +58,13 @@ autocmd BufRead,BufNewFile *.md,*.txt set textwidth=74
 autocmd BufRead,BufNewFile *.md,*.txt set formatoptions=t1
 autocmd BufRead,BufNewFile *.md,*.txt noremap Q gqap
 autocmd BufRead,BufNewFile *.md,*.txt syntax off
-autocmd BufRead,BufNewFile *.scm set tabstop=2
-autocmd BufRead,BufNewFile *.scm set shiftwidth=2
+autocmd BufRead,BufNewFile *.scm,*.rkt set tabstop=2
+autocmd BufRead,BufNewFile *.scm,*.rkt set shiftwidth=2
 autocmd BufRead,BufNewFile *.c set tabstop=4
 autocmd BufRead,BufNewFile *.c set shiftwidth=4
 autocmd BufRead,BufNewFile *.scm,*.c set expandtab
 autocmd BufRead,BufNewFile *.rkt inoremap lambda λ
+autocmd BufRead,BufNewFile *.rkt,*.scm set lisp
 
 "Map f9 to lambda replace
 map #9 :%s/lambda/λ/g<CR>
@@ -72,3 +73,5 @@ map #9 :%s/lambda/λ/g<CR>
 nmap ,b :FufLine<CR>
 nmap ,t :FufFile<CR>
 nmap ,f :FufTag<CR>
+
+set expandtab
