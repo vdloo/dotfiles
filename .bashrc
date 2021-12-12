@@ -31,6 +31,8 @@ alias uncommit='git reset --soft HEAD^'
 alias t='task unblocked'
 # https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 git config --global alias.adog "log --all --decorate --oneline --graph"
+# high keyboard repeat rate gotta go fast
+xset r rate 200 200
 
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
 # bashrc for local machine, add all machine specific stuff here
