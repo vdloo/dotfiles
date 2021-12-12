@@ -33,6 +33,8 @@ alias t='task unblocked'
 git config --global alias.adog "log --all --decorate --oneline --graph"
 # high keyboard repeat rate gotta go fast
 xset r rate 200 200
+# Fix WM reparenting for Pycharm
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 [ -f ~/.bashrc-private ] && source ~/.bashrc-private
 # bashrc for local machine, add all machine specific stuff here
