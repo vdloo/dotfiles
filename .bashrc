@@ -32,7 +32,7 @@ alias t='task unblocked'
 # https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 git config --global alias.adog "log --all --decorate --oneline --graph"
 # high keyboard repeat rate gotta go fast
-xset r rate 200 200
+which xset > /dev/null && xset r rate 200 200
 # Fix WM reparenting for Pycharm
 export _JAVA_AWT_WM_NONREPARENTING=1
 
