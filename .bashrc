@@ -42,4 +42,4 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # bashrc for local machine, add all machine specific stuff here
 [ -f ~/.bashrc-local ] && source ~/.bashrc-local
 
-[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && which startx > /dev/null && exec startx
