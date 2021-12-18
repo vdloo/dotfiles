@@ -33,9 +33,6 @@ Plugin 'L9'
 "vim-fuzzyfinder: quickly find buffer/file/command/bookmark/tag
 Plugin 'FuzzyFinder'
 
-"vim-paredit
-Plugin 'vim-scripts/paredit.vim'
-
 "End of Vundle configurations
 call vundle#end()
 
