@@ -31,6 +31,8 @@ alias uncommit='git reset --soft HEAD^'
 alias t='task unblocked'
 # https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 git config --global alias.adog "log --all --decorate --oneline --graph"
+git config --global user.name "Rick van de Loo"
+git config --global user.email "rickvandeloo@gmail.com"
 # high keyboard repeat rate gotta go fast
 [[ ! -z $DISPLAY ]] && which xset > /dev/null && xset r rate 200 200
 # Fix WM reparenting for Pycharm
